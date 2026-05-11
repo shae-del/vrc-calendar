@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VRC — Instagram Content Calendar</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F7F4EF;
+    --warm-white: #FDFCFA;
+    --ink: #1A1714;
+    --ink-soft: #3D3830;
+    --muted: #8A8278;
+    --border: #DDD8CF;
+    --border-light: #EAE6DF;
+    --gold: #B8965A;
+    --gold-light: #F0E8D6;
+    --gold-dark: #8A6C38;
+
+    --type-teaser-bg: #EDF3E8; --type-teaser-text: #3A5C28;
+    --type-bts-bg: #EDE8F3;   --type-bts-text: #3D2E6B;
+    --type-story-bg: #F3EDE8; --type-story-text: #6B3D2E;
+    --type-artist-bg: #F3E8E8;--type-artist-text: #6B2E2E;
+    --type-mission-bg: #E8F3EE;--type-mission-text: #1F5C42;
+    --type-venue-bg: #E8EEF3; --type-venue-text: #1F3E5C;
+    --type-credibility-bg: #F5F0E8; --type-credibility-text: #5C4A1F;
+  }
+
+  html { font-size: 16px; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; }
+
+  .topbar {
+    background: var(--ink); color: var(--cream);
+    padding: 0.6rem 2.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .topbar-brand { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 300; letter-spacing: 0.18em; text-transform: uppercase; }
+  .topbar-sub { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(247,244,239,0.4); }
+
+  .hero {
+    background: var(--ink); color: var(--warm-white);
+    padding: 4rem 2.5rem 3rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: -60px; right: -60px;
+    width: 320px; height: 320px; border-radius: 50%;
+    border: 1px solid rgba(184,150,90,0.15);
+  }
+  .hero::after {
+    content: ''; position: absolute; top: -20px; right: -20px;
+    width: 200px; height: 200px; border-radius: 50%;
+    border: 1px solid rgba(184,150,90,0.1);
+  }
+  .hero-eyebrow { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 300; line-height: 1.15; margin-bottom: 0.5rem; max-width: 620px; }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-event { font-size: 0.78rem; letter-spacing: 0.1em; color: rgba(184,150,90,0.7); margin-bottom: 1.75rem; }
+  .hero-meta { display: flex; gap: 2rem; flex-wrap: wrap; }
+  .meta-item { }
+  .meta-n { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: var(--gold); line-height: 1; }
+  .meta-l { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(253,252,250,0.4); margin-top: 3px; }
+
+  .event-strip {
+    background: var(--gold); color: var(--ink);
+    padding: 0.65rem 2.5rem;
+    display: flex; gap: 2rem; flex-wrap: wrap; align-items: center;
+  }
+  .event-item { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; }
+  .event-sep { color: rgba(26,23,20,0.35); }
+
+  .controls {
+    background: var(--warm-white); border-bottom: 1px solid var(--border);
+    padding: 0.9rem 2.5rem;
+    display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .controls-label { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-right: 0.25rem; flex-shrink: 0; }
+  .filter-btn {
+    padding: 5px 13px; font-size: 0.72rem; font-family: 'DM Sans', sans-serif;
+    border: 1px solid var(--border); border-radius: 100px;
+    background: transparent; color: var(--ink-soft); cursor: pointer;
+    transition: all 0.15s; letter-spacing: 0.03em; white-space: nowrap;
+  }
+  .filter-btn:hover { border-color: var(--gold); color: var(--gold-dark); }
+  .filter-btn.active { background: var(--ink); border-color: var(--ink); color: var(--warm-white); }
+
+  .format-filter {
+    margin-left: auto; display: flex; gap: 0.5rem; align-items: center;
+  }
+  .format-sep { width: 1px; height: 20px; background: var(--border); margin: 0 0.25rem; }
+
+  .phase-section { padding: 2.5rem 2.5rem 1rem; }
+  .phase-header { display: flex; align-items: flex-start; gap: 1.5rem; margin-bottom: 1.75rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-light); }
+  .phase-number { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 300; color: var(--border); line-height: 1; flex-shrink: 0; margin-top: -0.25rem; }
+  .phase-name { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: var(--ink); margin-bottom: 0.25rem; }
+  .phase-goal { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+  .phase-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.65; max-width: 600px; }
+
+  .posts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+
+  .post-card {
+    background: var(--warm-white); border: 1px solid var(--border-light);
+    border-radius: 4px; overflow: hidden;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .post-card:hover { box-shadow: 0 4px 20px rgba(26,23,20,0.07); border-color: var(--border); }
+
+  .card-accent { height: 3px; }
+  .accent-teaser { background: #639922; }
+  .accent-bts { background: #534AB7; }
+  .accent-story { background: #B87E3A; }
+  .accent-artist { background: #B83A3A; }
+  .accent-mission { background: #0F6E56; }
+  .accent-venue { background: #185FA5; }
+  .accent-credibility { background: #B8965A; }
+
+  .card-body { padding: 1.25rem; }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
+  .card-badges { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; }
+
+  .post-num { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--muted); font-weight: 300; flex-shrink: 0; }
+  .type-badge { font-size: 0.62rem; letter-spacing: 0.07em; text-transform: uppercase; padding: 3px 8px; border-radius: 100px; font-weight: 500; }
+  .format-badge {
+    font-size: 0.62rem; letter-spacing: 0.05em; padding: 3px 8px;
+    border-radius: 100px; font-weight: 500;
+    display: flex; align-items: center; gap: 3px;
+  }
+  .format-reel { background: #1A1714; color: #F0E8D6; }
+  .format-photo { background: var(--border-light); color: var(--ink-soft); }
+  .format-both { background: #2E1A14; color: #F0E0D6; }
+  .week-tag { font-size: 0.62rem; color: var(--muted); letter-spacing: 0.05em; }
+
+  .toggle-btn { background: none; border: none; cursor: pointer; color: var(--muted); font-size: 1rem; line-height: 1; padding: 2px 4px; transition: color 0.15s; flex-shrink: 0; }
+  .toggle-btn:hover { color: var(--ink); }
+
+  .card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 400; color: var(--ink); margin-bottom: 0.4rem; line-height: 1.3; }
+  .card-hook { font-size: 0.78rem; color: var(--muted); line-height: 1.6; }
+
+  .card-detail { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+  .card-detail.open { max-height: 900px; }
+  .detail-inner { border-top: 1px solid var(--border-light); margin-top: 1rem; padding-top: 1rem; display: flex; flex-direction: column; gap: 0.85rem; }
+
+  .detail-row { display: grid; grid-template-columns: 72px 1fr; gap: 0.5rem; align-items: start; }
+  .detail-label { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); padding-top: 2px; }
+  .detail-val { font-size: 0.79rem; color: var(--ink-soft); line-height: 1.6; }
+  .detail-val.caption { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.92rem; color: var(--ink); line-height: 1.65; }
+
+  .reel-note { background: #1A1714; color: var(--gold-light); font-size: 0.72rem; border-radius: 3px; padding: 0.6rem 0.75rem; line-height: 1.55; }
+  .reel-note strong { color: var(--gold); }
+
+  .tags-wrap { display: flex; flex-wrap: wrap; gap: 4px; }
+  .tag { font-size: 0.65rem; color: var(--gold-dark); }
+
+  .phase-divider { height: 1px; background: var(--border); margin: 0 2.5rem; }
+
+  .voice-section { padding: 2rem 2.5rem 2.5rem; }
+  .voice-box {
+    background: var(--ink); color: var(--warm-white);
+    padding: 1.75rem 2rem; border-radius: 4px;
+    display: grid; grid-template-columns: auto 1fr; gap: 1.5rem; align-items: start;
+  }
+  .voice-icon { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; color: var(--gold); line-height: 1; font-style: italic; }
+  .voice-title { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem; }
+  .voice-text { font-size: 0.83rem; color: rgba(253,252,250,0.7); line-height: 1.8; }
+  .voice-text strong { color: var(--warm-white); font-weight: 500; }
+
+  .summary-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.25rem; }
+  .summary-pill { background: rgba(184,150,90,0.12); border: 1px solid rgba(184,150,90,0.3); border-radius: 100px; padding: 4px 12px; font-size: 0.7rem; color: var(--gold-light); letter-spacing: 0.05em; }
+
+  footer { border-top: 1px solid var(--border); padding: 1.25rem 2.5rem; display: flex; justify-content: space-between; align-items: center; }
+  .footer-brand { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; color: var(--muted); letter-spacing: 0.1em; }
+  .footer-note { font-size: 0.7rem; color: var(--muted); }
+
+  .post-card.hidden { display: none; }
+
+  @media (max-width: 640px) {
+    .topbar, .hero, .event-strip, .controls, .phase-section, .voice-section, footer { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .phase-divider { margin: 0 1.25rem; }
+    .format-filter { margin-left: 0; }
+    .hero-meta { gap: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="topbar-brand">Velvet Rope Collective</span>
+  <span class="topbar-sub">Instagram · @velvet_rope_collective · Internal</span>
+</div>
+
+<div class="hero">
+  <div class="hero-eyebrow">@velvet_rope_collective — Instagram Content Calendar</div>
+  <h1 class="hero-title">90-Day Brand<br>Storytelling <em>Plan</em></h1>
+  <div class="hero-event">Phil &amp; Friends · Nashville · October 9–11, 2026</div>
+  <div class="hero-meta">
+    <div class="meta-item"><div class="meta-n">15</div><div class="meta-l">Posts planned</div></div>
+    <div class="meta-item"><div class="meta-n">6</div><div class="meta-l">Reels</div></div>
+    <div class="meta-item"><div class="meta-n">9</div><div class="meta-l">Photos</div></div>
+    <div class="meta-item"><div class="meta-n">3</div><div class="meta-l">Story phases</div></div>
+  </div>
+</div>
+
+<div class="event-strip">
+  <span class="event-item">Phil Vassar's Private Estate</span>
+  <span class="event-sep">·</span>
+  <span class="event-item">Conrad Nashville</span>
+  <span class="event-sep">·</span>
+  <span class="event-item">By Invitation Only</span>
+  <span class="event-sep">·</span>
+  <span class="event-item">Vanderbilt Emergency Services — $50K</span>
+  <span class="event-sep">·</span>
+  <span class="event-item">Oct 9–11, 2026</span>
+</div>
+
+<div class="controls">
+  <span class="controls-label">Type</span>
+  <button class="filter-btn active" onclick="filter('type','all',this)">All</button>
+  <button class="filter-btn" onclick="filter('type','teaser',this)">Event teaser</button>
+  <button class="filter-btn" onclick="filter('type','bts',this)">Behind the scenes</button>
+  <button class="filter-btn" onclick="filter('type','artist',this)">Artist / talent</button>
+  <button class="filter-btn" onclick="filter('type','mission',this)">Mission</button>
+  <button class="filter-btn" onclick="filter('type','venue',this)">Venue</button>
+  <button class="filter-btn" onclick="filter('type','credibility',this)">Credibility</button>
+  <div class="format-sep"></div>
+  <span class="controls-label">Format</span>
+  <button class="filter-btn" onclick="filter('format','reel',this)">Reels only</button>
+  <button class="filter-btn" onclick="filter('format','photo',this)">Photos only</button>
+</div>
+
+<div id="main"></div>
+
+<div class="voice-section">
+  <div class="voice-box">
+    <div class="voice-icon">"</div>
+    <div>
+      <div class="voice-title">Brand voice — the standard for every post</div>
+      <p class="voice-text"><strong>Warm and specific</strong> — never scripted. Use the real details: Phil's barn, the Conrad, Vanderbilt. Specificity is what makes people believe it. <strong>Don't over-explain.</strong> Build intrigue, leave room for curiosity. <strong>Let scarcity do the work</strong> — the room is intentionally limited. Say it once, cleanly. No sales pitch. <strong>Weave in the giving</strong> — guests should feel proud to be part of something that matters, not lectured at. <strong>No pricing on social. No dates until Phase 2.</strong> Write like you're telling one person something extraordinary, not broadcasting to a crowd.</p>
+      <div class="summary-row">
+        <span class="summary-pill">Warm · not scripted</span>
+        <span class="summary-pill">Intriguing · not over-explained</span>
+        <span class="summary-pill">Exclusive · not pretentious</span>
+        <span class="summary-pill">Purposeful · giving woven in</span>
+        <span class="summary-pill">No pricing on social</span>
+        <span class="summary-pill">No dates until Phase 2</span>
+        <span class="summary-pill">By invitation. By referral. By design.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-brand">VRC · Velvet Rope Collective, LLC · April 2026</span>
+  <span class="footer-note">Confidential — internal use only</span>
+</footer>
+
+<script>
+const data = [
+  {
+    phase: 1, phaseName: "Establish", phaseGoal: "Days 1–30 · 0 → 4 posts",
+    phaseDesc: "Build the world before you sell the weekend. No event details yet. No dates. No names. Just the feeling of something being built that the right people need to be part of.",
+    posts: [
+      {
+        num:"01", type:"bts", typeLabel:"Behind the scenes", format:"reel+photo", formatLabel:"Reel + Photo", week:"Week 1",
+        title:"What VRC is",
+        hook:"Slow atmospheric B-roll — a long table being set, candlelight, a handwritten name card, a wine glass catching light. No faces. No spoken words. Text fades in over black: \"Nothing is accidental.\" End on the VRC logo.",
+        caption:"\"Not a concert. Not a resort. Not an event. Something else entirely. More soon.\"",
+        reelNote:"15–20 seconds. No dialogue. Music-driven. Best still frame saved as grid cover.",
+        format_detail:"Reel as primary post + static cover saved to grid",
+        cta:"None. First impression only.",
+        tags:["#VRC","#VelvetRopeCollective","#InviteOnly"]
+      },
+      {
+        num:"02", type:"venue", typeLabel:"Venue / access", format:"photo", formatLabel:"Photo", week:"Week 2",
+        title:"A place you can't book",
+        hook:"Moody exterior or interior of the Conrad Nashville or a private estate — no signage visible, no location tagged. Just the feeling of a space that isn't available to everyone.",
+        caption:"\"Some venues you can find on a map. Some you can't. The ones worth talking about are usually the latter. We've been to this one. Soon, the right people will be too.\"",
+        reelNote:null,
+        format_detail:"Single image, portrait, warm tones",
+        cta:"None. Mystery is the point.",
+        tags:["#VRC","#Nashville","#PrivateAccess","#VelvetRopeCollective"]
+      },
+      {
+        num:"03", type:"mission", typeLabel:"Mission / giving", format:"photo", formatLabel:"Photo", week:"Week 3",
+        title:"The other reason we do this",
+        hook:"Clean editorial image — something that evokes generosity without being corporate. A child's hands, a hospital hallway with warm light, a moment of human connection.",
+        caption:"\"Every VRC weekend ends the same way: with a check. Because a great time and a meaningful one shouldn't be two different things.\"",
+        reelNote:null,
+        format_detail:"Single image, warm and human. No logos.",
+        cta:"None yet. Plant the seed.",
+        tags:["#VRC","#GivingBack","#VelvetRopeCollective","#Vanderbilt"]
+      },
+      {
+        num:"04", type:"teaser", typeLabel:"Event teaser", format:"reel", formatLabel:"Reel", week:"Week 4",
+        title:"The first whisper",
+        hook:"Wordless cuts — a guitar case carried across a field, a barn door opening to golden light, a place setting for a dinner that hasn't happened yet. Text on screen: \"One weekend. No tickets for sale.\"",
+        caption:"\"Something's happening. You'll know when you're supposed to know.\"",
+        reelNote:"15–20 seconds. No dialogue. Music-driven. Keep it cinematic — this is the first time anyone feels the VRC world.",
+        format_detail:"Reel only",
+        cta:"Link in bio → interest / inquiry form",
+        tags:["#VRC","#InviteOnly","#VelvetRopeCollective","#ComingSoon"]
+      }
+    ]
+  },
+  {
+    phase: 2, phaseName: "Build", phaseGoal: "Days 31–60 · 4 → 8 posts",
+    phaseDesc: "Nashville becomes the anchor. Introduce Phil Vassar's barn, the Conrad, and the team. Let followers feel like they're watching something extraordinary being built that they wish they were part of.",
+    posts: [
+      {
+        num:"05", type:"venue", typeLabel:"Venue / access", format:"photo", formatLabel:"Photo", week:"Week 5",
+        title:"The barn",
+        hook:"Phil Vassar's private estate — the barn exterior at golden hour, or an interior detail: exposed wood beams, a single spotlight, a row of chairs being set. No Phil yet. No name. Just the space.",
+        caption:"\"This barn has welcomed some of the biggest names in country music. This October, it welcomes a few more — and the people lucky enough to be in the room with them. By invitation only.\"",
+        reelNote:null,
+        format_detail:"Single image or 2-photo carousel, warm tones",
+        cta:"None. Anticipation only.",
+        tags:["#VRC","#Nashville","#SongwriterRound","#PrivateConcert","#VelvetRopeCollective"]
+      },
+      {
+        num:"06", type:"bts", typeLabel:"Behind the scenes", format:"reel", formatLabel:"Reel", week:"Week 6",
+        title:"Behind the rope — planning",
+        hook:"Bob walking a venue, a moodboard spread on a table, wine being tasted, seating charts being reviewed. No audio explanation — just atmosphere and movement. Text on screen: \"Every detail is a decision.\"",
+        caption:"\"We've been planning this for months. The wine, the welcome, the timing of the performance, the moment you walk through the door. Every touchpoint is a choice. None of it is accidental.\"",
+        reelNote:"20–30 seconds. Warm color grade. Candid but composed. This is the obsession made visible.",
+        format_detail:"Reel, warm color grade",
+        cta:"None. Trust-builder.",
+        tags:["#VRC","#EveryDetailIsADecision","#BehindTheVelvetRope","#VelvetRopeCollective"]
+      },
+      {
+        num:"07", type:"credibility", typeLabel:"Credibility", format:"photo", formatLabel:"Photo", week:"Week 7",
+        title:"The expertise behind it",
+        hook:"A strong candid of Bob — at a venue, reviewing a detail, shaking a hand. Professional but warm. Not a headshot. (Use the photo from his Marriott retirement — the one on stage. That image earns the caption.)",
+        caption:"\"Bob spent 40 years at Marriott International overseeing more than 125 convention resort properties. He knows what a great event feels like from every angle — as the operator and as the guest. VRC is everything he learned, distilled into one extraordinary weekend.\"",
+        reelNote:null,
+        format_detail:"Single portrait image, editorial feel",
+        cta:"None. This is the credibility post — let it stand alone.",
+        tags:["#VRC","#VelvetRopeCollective","#Founder","#HospitalityDoneRight"]
+      },
+      {
+        num:"08", type:"teaser", typeLabel:"Event teaser", format:"reel+photo", formatLabel:"Reel + Photo", week:"Week 8",
+        title:"Nashville reveal — Phil & Friends",
+        hook:"The Conrad Nashville exterior, a slow pan of the barn interior being styled, a bourbon barrel with the VRC logo (or branded VRC item — TBD), a dinner table set for the evening. End frame text: \"Phil & Friends. Nashville. October 2026. By invitation only.\"",
+        caption:"\"Nashville. October 2026. Phil Vassar's private estate. The Conrad Nashville. A Country Music Hall of Famer. A Grand Ole Opry member. A hitmaker with 10 No. 1 singles. All on the same stage, in a room small enough to hear the guitar before you hear the amp. A $50,000 donation to Vanderbilt Emergency Services. By invitation. By referral. By design.\"",
+        reelNote:"30 seconds. This is the hero post. Best still saved to grid. This is the first time the full picture comes together.",
+        format_detail:"Reel as primary + best still saved as grid cover",
+        cta:"Link in bio → inquiry form. DM for information.",
+        tags:["#VRC","#Nashville","#PhilVassar","#InviteOnly","#VelvetRopeCollective","#ConradNashville","#VanderbiltEmergencyServices"]
+      }
+    ]
+  },
+  {
+    phase: 3, phaseName: "Prove", phaseGoal: "Days 61–90 · 8 → 15 posts",
+    phaseDesc: "Deliver specificity. Build urgency without pressure. By Day 90, anyone who's been following since Day 1 should feel like they watched something extraordinary get built — and need to be at the next one.",
+    posts: [
+      {
+        num:"09", type:"mission", typeLabel:"Mission / giving", format:"photo", formatLabel:"Photo", week:"Week 9",
+        title:"Vanderbilt Emergency Services",
+        hook:"A warm, human image connected to Vanderbilt Emergency Services — first responders, real work, genuine emotion. Coordinate with Vanderbilt's comms team for approved imagery.",
+        caption:"\"This is who gets the check when the weekend is over. $50,000 to Vanderbilt Emergency Services — not as a footnote, but as part of the reason the weekend exists. Generosity is part of how VRC is built, not something added on the back end.\"",
+        reelNote:null,
+        format_detail:"Single image. Tag @VanderbiltHealth.",
+        cta:"Tag Vanderbilt Emergency Services. Link in bio.",
+        tags:["#VRC","#VanderbiltEmergencyServices","#GivingBack","#Nashville","#VelvetRopeCollective"]
+      },
+      {
+        num:"10", type:"artist", typeLabel:"Artist / talent", format:"photo", formatLabel:"Photo", week:"Week 9",
+        title:"Phil Vassar reveal",
+        hook:"A great candid of Phil — in the barn, at a piano, mid-laugh. Not a press photo. Something that feels like you were there.",
+        caption:"\"A Country Music Hall of Famer. A Grand Ole Opry member. Ten No. 1 singles. This October, he hosts an evening at his private barn for guests who were hand-picked to be there. No stage. No production. Just the songs and the room.\"",
+        reelNote:null,
+        format_detail:"Single portrait, warm and intimate",
+        cta:"DM for information on remaining invitations.",
+        tags:["#VRC","#PhilVassar","#Nashville","#SongwriterRound","#PrivateConcert","#VelvetRopeCollective"]
+      },
+      {
+        num:"11", type:"bts", typeLabel:"Behind the scenes", format:"reel", formatLabel:"Reel", week:"Week 10",
+        title:"Site walk",
+        hook:"Bob and the team walking the Conrad Nashville and the barn — checking table layouts, tasting a dish, reviewing the welcome gift. The feel of a team that obsesses. Text overlay: \"Build it like you're going.\"",
+        caption:"\"On site this week. Making sure every detail is right before a single guest arrives. That's the standard.\"",
+        reelNote:"20–30 seconds. Candid and unpolished. This one should feel real — not produced. The authenticity is the point.",
+        format_detail:"Reel, candid, slightly raw feel",
+        cta:"None. Authenticity post.",
+        tags:["#VRC","#BuildItLikeYoureGoing","#VelvetRopeCollective","#Nashville","#BehindTheRope"]
+      },
+      {
+        num:"12", type:"venue", typeLabel:"Venue / access", format:"photo", formatLabel:"Photo", week:"Week 10",
+        title:"The Conrad Nashville",
+        hook:"The best available shot of the Conrad Nashville — lobby, a suite, or an event space styled for VRC. Elevated, warm, specific.",
+        caption:"\"The Conrad Nashville. Where guests will wake up on October 10th. The weekend starts the moment you arrive.\"",
+        reelNote:null,
+        format_detail:"Single hero image, maximum quality",
+        cta:"Link in bio — a small number of invitations remain.",
+        tags:["#VRC","#ConradNashville","#Nashville","#InviteOnly","#VelvetRopeCollective"]
+      },
+      {
+        num:"13", type:"bts", typeLabel:"Behind the scenes", format:"photo", formatLabel:"Photo", week:"Week 11",
+        title:"The bourbon barrel",
+        hook:"A VRC-branded bourbon barrel (or branded VRC item — TBD) — the logo burned in, a hand resting on it, a distillery backdrop. Specific, tactile, exclusive.",
+        caption:"\"One of the details that doesn't exist anywhere else. More on this when you get here.\"",
+        reelNote:null,
+        format_detail:"Single close-up image, rich warm tones",
+        cta:"None. Mystery detail.",
+        tags:["#VRC","#Nashville","#Bourbon","#VelvetRopeCollective","#TheDetailsAreTheExperience"]
+      },
+      {
+        num:"14", type:"teaser", typeLabel:"Event teaser", format:"reel", formatLabel:"Reel", week:"Week 12",
+        title:"Final call",
+        hook:"One last atmospheric pass — the barn at night, candlelight on a dinner table, the Conrad entrance. Text on screen: \"A small number of invitations remain for October.\" End on VRC logo.",
+        caption:"\"The last few invitations for Phil & Friends are being extended this week. One weekend. The velvet rope exists for a reason. By invitation. By referral. By design.\"",
+        reelNote:"15 seconds. Quiet and confident. No music drop, no urgency. VRC doesn't chase. It opens a door.",
+        format_detail:"Short Reel, 15 seconds",
+        cta:"Link in bio. DM. No pressure, no pitch.",
+        tags:["#VRC","#Nashville","#PhilVassar","#InviteOnly","#LastCall","#VelvetRopeCollective"]
+      },
+      {
+        num:"15", type:"teaser", typeLabel:"Event teaser", format:"photo", formatLabel:"Photo", week:"Week 13",
+        title:"What's next",
+        hook:"A single cryptic image — a skyline, a landscape, a detail that hints at a new city or setting. Nothing named, nothing revealed.",
+        caption:"\"Nashville isn't the only thing we're building. More soon.\"",
+        reelNote:null,
+        format_detail:"Single image, minimal. Maximum intrigue.",
+        cta:"Follow to stay in the room.",
+        tags:["#VRC","#WhatsNext","#VelvetRopeCollective"]
+      }
+    ]
+  }
+];
+
+const typeStyles = {
+  teaser:      { bg:"var(--type-teaser-bg)",      color:"var(--type-teaser-text)",      accent:"accent-teaser" },
+  bts:         { bg:"var(--type-bts-bg)",         color:"var(--type-bts-text)",         accent:"accent-bts" },
+  story:       { bg:"var(--type-story-bg)",       color:"var(--type-story-text)",       accent:"accent-story" },
+  artist:      { bg:"var(--type-artist-bg)",      color:"var(--type-artist-text)",      accent:"accent-artist" },
+  mission:     { bg:"var(--type-mission-bg)",     color:"var(--type-mission-text)",     accent:"accent-mission" },
+  venue:       { bg:"var(--type-venue-bg)",       color:"var(--type-venue-text)",       accent:"accent-venue" },
+  credibility: { bg:"var(--type-credibility-bg)", color:"var(--type-credibility-text)", accent:"accent-credibility" }
+};
+
+let activeType = "all";
+let activeFormat = "all";
+
+function buildHTML() {
+  const main = document.getElementById("main");
+  let html = "";
+  data.forEach((phase, pi) => {
+    if (pi > 0) html += `<div class="phase-divider"></div>`;
+    html += `<div class="phase-section">
+      <div class="phase-header">
+        <div class="phase-number">0${phase.phase}</div>
+        <div>
+          <div class="phase-goal">${phase.phaseGoal}</div>
+          <div class="phase-name">${phase.phaseName}</div>
+          <p class="phase-desc">${phase.phaseDesc}</p>
+        </div>
+      </div>
+      <div class="posts-grid">`;
+
+    phase.posts.forEach((post, i) => {
+      const s = typeStyles[post.type];
+      const id = `card-p${phase.phase}-${i}`;
+      const fmtClass = post.format === "reel" ? "format-reel" : post.format === "photo" ? "format-photo" : "format-both";
+      const fmtIcon = post.format === "reel" || post.format === "reel+photo" ? "▶ " : "";
+
+      html += `<div class="post-card" id="${id}" data-type="${post.type}" data-format="${post.format}">
+        <div class="card-accent ${s.accent}"></div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-badges">
+              <span class="post-num">${post.num}</span>
+              <span class="type-badge" style="background:${s.bg};color:${s.color}">${post.typeLabel}</span>
+              <span class="format-badge ${fmtClass}">${fmtIcon}${post.formatLabel}</span>
+            </div>
+            <button class="toggle-btn" onclick="toggleCard('${id}')" aria-label="Expand">+</button>
+          </div>
+          <div style="font-size:0.65rem;color:var(--muted);margin-bottom:0.5rem;letter-spacing:0.05em">${post.week}</div>
+          <div class="card-title">${post.title}</div>
+          <div class="card-hook">${post.hook.length > 100 ? post.hook.slice(0,100)+'…' : post.hook}</div>
+          <div class="card-detail" id="detail-${id}">
+            <div class="detail-inner">
+              ${post.reelNote ? `<div class="reel-note"><strong>Reel direction:</strong> ${post.reelNote}</div>` : ''}
+              <div class="detail-row">
+                <span class="detail-label">Visual</span>
+                <span class="detail-val">${post.hook}</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Caption</span>
+                <span class="detail-val caption">${post.caption}</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Format</span>
+                <span class="detail-val">${post.format_detail}</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">CTA</span>
+                <span class="detail-val">${post.cta}</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Hashtags</span>
+                <div class="tags-wrap">${post.tags.map(t=>`<span class="tag">${t}</span>`).join("")}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    });
+
+    html += `</div></div>`;
+  });
+  main.innerHTML = html;
+  applyFilters();
+}
+
+function toggleCard(id) {
+  const detail = document.getElementById(`detail-${id}`);
+  const card = document.getElementById(id);
+  const btn = card.querySelector(".toggle-btn");
+  const isOpen = detail.classList.contains("open");
+  detail.classList.toggle("open");
+  btn.textContent = isOpen ? "+" : "−";
+}
+
+function filter(dimension, value, btn) {
+  if (dimension === "type") {
+    activeType = value;
+    document.querySelectorAll(".filter-btn").forEach(b => {
+      if (b.textContent.trim() !== "Reels only" && b.textContent.trim() !== "Photos only") {
+        b.classList.remove("active");
+      }
+    });
+  } else {
+    activeFormat = value === activeFormat ? "all" : value;
+  }
+  if (btn) {
+    const isFormatBtn = btn.textContent.includes("only");
+    if (isFormatBtn) {
+      document.querySelectorAll(".filter-btn").forEach(b => {
+        if (b.textContent.includes("only")) b.classList.remove("active");
+      });
+      if (activeFormat !== "all") btn.classList.add("active");
+    } else {
+      btn.classList.add("active");
+    }
+  }
+  applyFilters();
+}
+
+function applyFilters() {
+  document.querySelectorAll(".post-card").forEach(card => {
+    const typeMatch = activeType === "all" || card.dataset.type === activeType;
+    const fmt = card.dataset.format;
+    const formatMatch = activeFormat === "all"
+      || (activeFormat === "reel" && (fmt === "reel" || fmt === "reel+photo"))
+      || (activeFormat === "photo" && (fmt === "photo" || fmt === "reel+photo"));
+    card.classList.toggle("hidden", !(typeMatch && formatMatch));
+  });
+}
+
+buildHTML();
+</script>
+</body>
+</html>
