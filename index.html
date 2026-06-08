@@ -117,6 +117,10 @@
   .accent-mission { background: #0F6E56; }
   .accent-venue { background: #185FA5; }
   .accent-credibility { background: #B8965A; }
+  .accent-linkedin { background: #0A66C2; }
+
+  .format-linkedin { background: #0A66C2; color: #fff; }
+  .posted-badge { background: #e6f4ea; color: #1a7340; border: 1px solid #a8d5b5; font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 7px; border-radius: 100px; font-weight: 600; }
 
   .card-body { padding: 1.25rem; }
   .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
@@ -189,7 +193,7 @@
 
 <div class="topbar">
   <span class="topbar-brand">Velvet Rope Collective</span>
-  <span class="topbar-sub">Instagram · @velvet_rope_collective · Internal</span>
+  <span class="topbar-sub">Instagram + LinkedIn · @velvet_rope_collective · Internal</span>
 </div>
 
 <div class="hero">
@@ -197,9 +201,9 @@
   <h1 class="hero-title">90-Day Brand<br>Storytelling <em>Plan</em></h1>
   <div class="hero-event">Phil &amp; Friends · Nashville · October 9–11, 2026</div>
   <div class="hero-meta">
-    <div class="meta-item"><div class="meta-n">15</div><div class="meta-l">Posts planned</div></div>
+    <div class="meta-item"><div class="meta-n">15</div><div class="meta-l">Instagram posts</div></div>
+    <div class="meta-item"><div class="meta-n">5</div><div class="meta-l">LinkedIn posts</div></div>
     <div class="meta-item"><div class="meta-n">6</div><div class="meta-l">Reels</div></div>
-    <div class="meta-item"><div class="meta-n">9</div><div class="meta-l">Photos</div></div>
     <div class="meta-item"><div class="meta-n">3</div><div class="meta-l">Story phases</div></div>
   </div>
 </div>
@@ -229,6 +233,10 @@
   <span class="controls-label">Format</span>
   <button class="filter-btn" onclick="filter('format','reel',this)">Reels only</button>
   <button class="filter-btn" onclick="filter('format','photo',this)">Photos only</button>
+  <div class="format-sep"></div>
+  <span class="controls-label">Platform</span>
+  <button class="filter-btn" onclick="filter('platform','instagram',this)">Instagram</button>
+  <button class="filter-btn" onclick="filter('platform','linkedin',this)">LinkedIn</button>
 </div>
 
 <div id="main"></div>
@@ -264,7 +272,7 @@ const data = [
     phaseDesc: "Build the world before you sell the event. No event details yet. No dates. No names. Just the feeling of something being built that the right people need to be part of.",
     posts: [
       {
-        num:"01", type:"teaser", typeLabel:"Event teaser", format:"photo", formatLabel:"Photo", week:"Week 1",
+        num:"01", type:"teaser", typeLabel:"Event teaser", format:"photo", formatLabel:"Photo", week:"May 30", posted:true,
         title:"We Are Live",
         hook:"\"WE ARE LIVE\" text overlay on an outdoor pathway/garden scene. VRCEXPERIENCES.COM centered at the bottom. Clean, bold, declarative. Posted as the official launch post.",
         caption:"\"Some things are not meant to be found. They are meant to find you.\n\nVelvet Rope Collective is officially live, and with it, the first invitation. We have spent months designing a event that does not exist anywhere else. A private estate. The Conrad Nashville. A James Beard semifinalist in the kitchen. A meaningful donation to Vanderbilt Medical Center Emergency Services. A deliberately curated room of people who were personally chosen to be there.\n\nNashville is first. More cities are coming.\n\nNo tickets. No public list. Just an invitation that you can request from the link in our bio.\n\n✨ By invitation. By referral. By design. ✨\"",
@@ -292,6 +300,26 @@ const data = [
         format_detail:"Single hero image, maximum quality. Portrait or landscape.",
         cta:"Link in bio → invitation request.",
         tags:["#VRC","#ConradNashville","#Nashville","#VelvetRopeCollective","#InviteOnly"]
+      },
+      {
+        num:"L1", type:"teaser", typeLabel:"Event teaser", format:"linkedin", formatLabel:"LinkedIn", week:"~This week", platform:"linkedin",
+        title:"We Are Live",
+        hook:"Same image as Instagram Post 01. LinkedIn caption leads with Bob's background and credibility rather than atmosphere.",
+        caption:"\"Velvet Rope Collective is officially live.\n\nBob Pfeffer spent 40 years at Marriott International overseeing more than 125 convention resort properties. VRC is what he built next. Invite-only, multi-day events for people who have done everything and want something that does not exist anywhere else at any price.\n\nFirst up: Nashville, October 2026.\n\nThe Conrad Nashville. Phil Vassar's private estate. A James Beard Award semifinalist in the kitchen. A meaningful donation to Vanderbilt Medical Center Emergency Services.\n\nNo tickets. No public list. An invitation you can request from the link below.\n\nBy invitation. By referral. By design.\"",
+        reelNote:null,
+        format_detail:"Same image as IG Post 01. Static image.",
+        cta:"Link in post → invitation request form.",
+        tags:["#VelvetRopeCollective","#Nashville","#PhilVassar","#ExclusiveEvents","#HospitalityLeadership"]
+      },
+      {
+        num:"L2", type:"teaser", typeLabel:"Event teaser", format:"linkedin", formatLabel:"LinkedIn", week:"~Late June", platform:"linkedin",
+        title:"The invitation model",
+        hook:"Thought-piece style post explaining why VRC is by invitation and referral only. Frames exclusivity as intentional design, not gatekeeping. No image required — strong text post.",
+        caption:"\"Most experiences are built for volume. VRC is built for the opposite.\n\nThirty couples per event. Not forty. Not fifty. The room is that size because the room is the product. When everyone at the table was personally chosen to be there, the conversation is different. The connections are different. The entire weekend is different.\n\nThis is not scarcity as a marketing tactic. It is how the experience works.\n\nNashville, October 2026. A small number of invitations remain. The link to request one is in our bio.\"",
+        reelNote:null,
+        format_detail:"Text-forward post. Optional: a single moody venue image as background. No graphics.",
+        cta:"Link in post → invitation request.",
+        tags:["#VelvetRopeCollective","#ExclusiveEvents","#Nashville","#InviteOnly","#LuxuryExperiences"]
       },
       {
         num:"04", type:"mission", typeLabel:"Mission / giving", format:"photo", formatLabel:"Photo", week:"~July 7",
@@ -340,14 +368,34 @@ const data = [
         tags:["#VRC","#VelvetRopeCollective","#Founder","#HospitalityDoneRight"]
       },
       {
-        num:"08", type:"teaser", typeLabel:"Event teaser", format:"reel+photo", formatLabel:"Reel + Photo", week:"Week 8",
+        num:"L3", type:"credibility", typeLabel:"Credibility", format:"linkedin", formatLabel:"LinkedIn", week:"~Late July", platform:"linkedin",
+        title:"The expertise behind it",
+        hook:"Bob's story — 40 years at Marriott, 125+ properties, what he built and why VRC is his life's work distilled. Strong text post. Optional: the Marriott retirement candid photo.",
+        caption:"\"Forty years. More than 125 convention resort properties. Tens of thousands of events.\n\nBob Pfeffer has spent his career on the other side of the velvet rope — building the kind of experiences that other people talk about for years. He knows what great hospitality feels like from every angle. As the operator. As the guest. As the person responsible for every detail in between.\n\nVRC is what he built when he decided to stop designing experiences for other people's events and start building one worth attending himself.\n\nNashville is first. More cities are coming.\"",
+        reelNote:null,
+        format_detail:"Text-forward post. Optional: Marriott retirement stage photo — candid, not a headshot.",
+        cta:"Follow VRC for updates. Link in bio → invitation request.",
+        tags:["#VelvetRopeCollective","#Hospitality","#Leadership","#Nashville","#ExclusiveEvents","#Marriott"]
+      },
+      {
+        num:"08", type:"teaser", typeLabel:"Event teaser", format:"reel+photo", formatLabel:"Reel + Photo", week:"~Aug 18",
         title:"Nashville reveal — Phil & Friends",
         hook:"The Conrad Nashville exterior, a slow pan of the barn interior being styled, a bourbon barrel with the VRC logo (or branded VRC item — TBD), a dinner table set for the evening. End frame text: \"Phil & Friends. Nashville. October 2026. By invitation only.\"",
-        caption:"\"Nashville. October 2026. Phil Vassar's private estate. The Conrad Nashville. A Country Music Hall of Famer. A Grand Ole Opry member. A hitmaker with 10 No. 1 singles. All on the same stage, in a room small enough to hear the guitar before you hear the amp. A $50,000 donation to Vanderbilt Medical Center Emergency Services. By invitation. By referral. By design.\"",
+        caption:"\"Nashville. October 2026. Phil Vassar's private estate. The Conrad Nashville. A Country Music Hall of Famer. A Grand Ole Opry member. A hitmaker with 10 No. 1 singles. All on the same stage, in a room small enough to hear the guitar before you hear the amp. A meaningful donation to Vanderbilt Medical Center Emergency Services. By invitation. By referral. By design.\"",
         reelNote:"30 seconds. This is the hero post. Best still saved to grid. This is the first time the full picture comes together.",
         format_detail:"Reel as primary + best still saved as grid cover",
         cta:"Link in bio → inquiry form. DM for information.",
-        tags:["#VRC","#Nashville","#PhilVassar","#InviteOnly","#VelvetRopeCollective","#ConradNashville","#VanderbiltEmergencyServices"]
+        tags:["#VRC","#Nashville","#PhilVassar","#InviteOnly","#VelvetRopeCollective","#ConradNashville","#VanderbiltMedicalCenterEmergencyServices"]
+      },
+      {
+        num:"L4", type:"teaser", typeLabel:"Event teaser", format:"linkedin", formatLabel:"LinkedIn", week:"~Mid August", platform:"linkedin",
+        title:"Phil & Friends — the full reveal",
+        hook:"The full event announcement, LinkedIn style. Phil's credentials, the Conrad, the barn, the chef, the donation. Written as a professional announcement — warm and direct, not cinematic.",
+        caption:"\"This October, Velvet Rope Collective hosts its first event in Nashville.\n\nPhil Vassar — Country Music Hall of Famer, Grand Ole Opry member, ten No. 1 singles — performs at his private estate in an intimate songwriter round. No stage production. No arena. Just the songs and the room.\n\nGuests stay at the Conrad Nashville. A James Beard Award semifinalist is in the kitchen. A meaningful donation goes to Vanderbilt Medical Center Emergency Services.\n\nThirty couples. Personally invited. This is the only announcement we will make publicly.\n\nIf you would like to be considered for an invitation, the link is below.\"",
+        reelNote:null,
+        format_detail:"Best still from IG Post 08 reel, or a strong single venue/barn image. Portrait preferred.",
+        cta:"Link in post → invitation request form.",
+        tags:["#VelvetRopeCollective","#Nashville","#PhilVassar","#ExclusiveEvents","#InviteOnly","#ConradNashville"]
       }
     ]
   },
@@ -359,7 +407,7 @@ const data = [
         num:"09", type:"mission", typeLabel:"Mission / giving", format:"photo", formatLabel:"Photo", week:"Week 9",
         title:"Vanderbilt Medical Center Emergency Services",
         hook:"A warm, human image connected to Vanderbilt Medical Center Emergency Services — first responders, real work, genuine emotion. Coordinate with Vanderbilt's comms team for approved imagery.",
-        caption:"\"This is who gets the check when the event is over. $50,000 to Vanderbilt Medical Center Emergency Services — not as a footnote, but as part of the reason the event exists. Generosity is part of how VRC is built, not something added on the back end.\"",
+        caption:"\"This is who gets the check when the event is over. A meaningful donation to Vanderbilt Medical Center Emergency Services — not as a footnote, but as part of the reason the event exists. Generosity is part of how VRC is built, not something added on the back end.\"",
         reelNote:null,
         format_detail:"Single image. Tag @VanderbiltHealth.",
         cta:"Tag Vanderbilt Medical Center Emergency Services. Link in bio.",
@@ -416,14 +464,24 @@ const data = [
         tags:["#VRC","#Nashville","#PhilVassar","#InviteOnly","#LastCall","#VelvetRopeCollective"]
       },
       {
-        num:"15", type:"teaser", typeLabel:"Event teaser", format:"photo", formatLabel:"Photo", week:"Week 13",
+        num:"15", type:"teaser", typeLabel:"Event teaser", format:"photo", formatLabel:"Photo", week:"~Late Sept",
         title:"What's next",
         hook:"A single cryptic image — a skyline, a landscape, a detail that hints at a new city or setting. Nothing named, nothing revealed.",
-        caption:"\"Nashville isn't the only thing we're building. More soon.\"",
+        caption:"\"Nashville is not the only thing we are building. More soon.\"",
         reelNote:null,
         format_detail:"Single image, minimal. Maximum intrigue.",
         cta:"Follow to stay in the room.",
         tags:["#VRC","#WhatsNext","#VelvetRopeCollective"]
+      },
+      {
+        num:"L5", type:"teaser", typeLabel:"Event teaser", format:"linkedin", formatLabel:"LinkedIn", week:"~Mid September", platform:"linkedin",
+        title:"Final invitations",
+        hook:"Quiet and confident. A small number of invitations remain. No pressure, no urgency tactics — just the door closing cleanly.",
+        caption:"\"A small number of invitations remain for Phil & Friends in Nashville this October.\n\nWe have not run ads. We have not sent a mass email. If you are seeing this, it is because someone in your network is connected to what we are building.\n\nOne event. Thirty couples. The Conrad Nashville. Phil Vassar's private estate. A James Beard Award semifinalist in the kitchen. A meaningful donation to Vanderbilt Medical Center Emergency Services.\n\nIf you would like to be considered, the link is below. We will be in touch.\n\nBy invitation. By referral. By design.\"",
+        reelNote:null,
+        format_detail:"Clean venue or event image — Conrad lobby, barn exterior, or a detail shot. No text overlay.",
+        cta:"Link in post → invitation request form.",
+        tags:["#VelvetRopeCollective","#Nashville","#PhilVassar","#InviteOnly","#ExclusiveEvents"]
       }
     ]
   }
@@ -441,6 +499,7 @@ const typeStyles = {
 
 let activeType = "all";
 let activeFormat = "all";
+let activePlatform = "all";
 
 function buildHTML() {
   const main = document.getElementById("main");
@@ -459,19 +518,24 @@ function buildHTML() {
       <div class="posts-grid">`;
 
     phase.posts.forEach((post, i) => {
+      const isLinkedIn = post.platform === "linkedin";
       const s = typeStyles[post.type];
+      const accentClass = isLinkedIn ? "accent-linkedin" : s.accent;
       const id = `card-p${phase.phase}-${i}`;
-      const fmtClass = post.format === "reel" ? "format-reel" : post.format === "photo" ? "format-photo" : "format-both";
-      const fmtIcon = post.format === "reel" || post.format === "reel+photo" ? "▶ " : "";
+      const fmtClass = isLinkedIn ? "format-linkedin" : (post.format === "reel" ? "format-reel" : post.format === "photo" ? "format-photo" : "format-both");
+      const fmtIcon = post.format === "reel" || post.format === "reel+photo" ? "▶ " : isLinkedIn ? "in " : "";
+      const platformAttr = post.platform || "instagram";
+      const postedBadge = post.posted ? `<span class="posted-badge">✓ Posted</span>` : "";
 
-      html += `<div class="post-card" id="${id}" data-type="${post.type}" data-format="${post.format}">
-        <div class="card-accent ${s.accent}"></div>
+      html += `<div class="post-card" id="${id}" data-type="${post.type}" data-format="${post.format}" data-platform="${platformAttr}">
+        <div class="card-accent ${accentClass}"></div>
         <div class="card-body">
           <div class="card-top">
             <div class="card-badges">
               <span class="post-num">${post.num}</span>
               <span class="type-badge" style="background:${s.bg};color:${s.color}">${post.typeLabel}</span>
               <span class="format-badge ${fmtClass}">${fmtIcon}${post.formatLabel}</span>
+              ${postedBadge}
             </div>
             <button class="toggle-btn" onclick="toggleCard('${id}')" aria-label="Expand">+</button>
           </div>
@@ -498,7 +562,7 @@ function buildHTML() {
                 <span class="detail-val">${post.cta}</span>
               </div>
               <div class="detail-row">
-                <span class="detail-label">Hashtags</span>
+                <span class="detail-label">${isLinkedIn ? "Hashtags" : "Hashtags"}</span>
                 <div class="tags-wrap">${post.tags.map(t=>`<span class="tag">${t}</span>`).join("")}</div>
               </div>
             </div>
@@ -526,24 +590,26 @@ function filter(dimension, value, btn) {
   if (dimension === "type") {
     activeType = value;
     document.querySelectorAll(".filter-btn").forEach(b => {
-      if (b.textContent.trim() !== "Reels only" && b.textContent.trim() !== "Photos only") {
+      if (!b.textContent.includes("only") && b.textContent !== "Instagram" && b.textContent !== "LinkedIn") {
         b.classList.remove("active");
       }
     });
-  } else {
+  } else if (dimension === "format") {
     activeFormat = value === activeFormat ? "all" : value;
+    document.querySelectorAll(".filter-btn").forEach(b => {
+      if (b.textContent.includes("only")) b.classList.remove("active");
+    });
+    if (activeFormat !== "all") btn && btn.classList.add("active");
+    applyFilters(); return;
+  } else if (dimension === "platform") {
+    activePlatform = value === activePlatform ? "all" : value;
+    document.querySelectorAll(".filter-btn").forEach(b => {
+      if (b.textContent === "Instagram" || b.textContent === "LinkedIn") b.classList.remove("active");
+    });
+    if (activePlatform !== "all") btn && btn.classList.add("active");
+    applyFilters(); return;
   }
-  if (btn) {
-    const isFormatBtn = btn.textContent.includes("only");
-    if (isFormatBtn) {
-      document.querySelectorAll(".filter-btn").forEach(b => {
-        if (b.textContent.includes("only")) b.classList.remove("active");
-      });
-      if (activeFormat !== "all") btn.classList.add("active");
-    } else {
-      btn.classList.add("active");
-    }
-  }
+  if (btn) btn.classList.add("active");
   applyFilters();
 }
 
@@ -554,7 +620,8 @@ function applyFilters() {
     const formatMatch = activeFormat === "all"
       || (activeFormat === "reel" && (fmt === "reel" || fmt === "reel+photo"))
       || (activeFormat === "photo" && (fmt === "photo" || fmt === "reel+photo"));
-    card.classList.toggle("hidden", !(typeMatch && formatMatch));
+    const platformMatch = activePlatform === "all" || card.dataset.platform === activePlatform;
+    card.classList.toggle("hidden", !(typeMatch && formatMatch && platformMatch));
   });
 }
 
