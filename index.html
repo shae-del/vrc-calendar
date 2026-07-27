@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VRC — Instagram Content Calendar</title>
+<title>VRC — Content Calendar</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -60,7 +60,6 @@
   .hero-title em { font-style: italic; color: var(--gold); }
   .hero-event { font-size: 0.78rem; letter-spacing: 0.1em; color: rgba(184,150,90,0.7); margin-bottom: 1.75rem; }
   .hero-meta { display: flex; gap: 2rem; flex-wrap: wrap; }
-  .meta-item { }
   .meta-n { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: var(--gold); line-height: 1; }
   .meta-l { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(253,252,250,0.4); margin-top: 3px; }
 
@@ -88,9 +87,6 @@
   .filter-btn:hover { border-color: var(--gold); color: var(--gold-dark); }
   .filter-btn.active { background: var(--ink); border-color: var(--ink); color: var(--warm-white); }
 
-  .format-filter {
-    margin-left: auto; display: flex; gap: 0.5rem; align-items: center;
-  }
   .format-sep { width: 1px; height: 20px; background: var(--border); margin: 0 0.25rem; }
 
   .phase-section { padding: 2.5rem 2.5rem 1rem; }
@@ -118,9 +114,18 @@
   .accent-venue { background: #185FA5; }
   .accent-credibility { background: #B8965A; }
   .accent-linkedin { background: #0A66C2; }
+  .accent-both { background: linear-gradient(90deg, #639922 60%, #0A66C2 100%); }
 
   .format-linkedin { background: #0A66C2; color: #fff; }
+  .format-reel { background: #1A1714; color: #F0E8D6; }
+  .format-photo { background: var(--border-light); color: var(--ink-soft); }
+  .format-carousel { background: var(--gold-light); color: var(--gold-dark); }
+  .format-story { background: #7B2D8B; color: #fff; }
+  .format-both-format { background: #2E1A14; color: #F0E0D6; }
+
   .posted-badge { background: #e6f4ea; color: #1a7340; border: 1px solid #a8d5b5; font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 7px; border-radius: 100px; font-weight: 600; }
+  .both-badge { background: #e8f0f8; color: #1a3a5c; border: 1px solid #b8d0e8; font-size: 0.58rem; letter-spacing: 0.04em; text-transform: uppercase; padding: 2px 6px; border-radius: 100px; font-weight: 500; }
+  .approval-badge { background: #fff4e5; color: #7a4500; border: 1px solid #f5c97a; font-size: 0.58rem; letter-spacing: 0.04em; padding: 2px 6px; border-radius: 100px; font-weight: 500; }
 
   .card-body { padding: 1.25rem; }
   .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
@@ -133,9 +138,6 @@
     border-radius: 100px; font-weight: 500;
     display: flex; align-items: center; gap: 3px;
   }
-  .format-reel { background: #1A1714; color: #F0E8D6; }
-  .format-photo { background: var(--border-light); color: var(--ink-soft); }
-  .format-both { background: #2E1A14; color: #F0E0D6; }
   .week-tag { font-size: 0.62rem; color: var(--muted); letter-spacing: 0.05em; }
 
   .toggle-btn { background: none; border: none; cursor: pointer; color: var(--muted); font-size: 1rem; line-height: 1; padding: 2px 4px; transition: color 0.15s; flex-shrink: 0; }
@@ -145,16 +147,18 @@
   .card-hook { font-size: 0.78rem; color: var(--muted); line-height: 1.6; }
 
   .card-detail { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
-  .card-detail.open { max-height: 900px; }
+  .card-detail.open { max-height: 1200px; }
   .detail-inner { border-top: 1px solid var(--border-light); margin-top: 1rem; padding-top: 1rem; display: flex; flex-direction: column; gap: 0.85rem; }
 
-  .detail-row { display: grid; grid-template-columns: 72px 1fr; gap: 0.5rem; align-items: start; }
+  .detail-row { display: grid; grid-template-columns: 80px 1fr; gap: 0.5rem; align-items: start; }
   .detail-label { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); padding-top: 2px; }
   .detail-val { font-size: 0.79rem; color: var(--ink-soft); line-height: 1.6; }
   .detail-val.caption { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.92rem; color: var(--ink); line-height: 1.65; }
 
   .reel-note { background: #1A1714; color: var(--gold-light); font-size: 0.72rem; border-radius: 3px; padding: 0.6rem 0.75rem; line-height: 1.55; }
   .reel-note strong { color: var(--gold); }
+  .approval-note { background: #fff8ec; border: 1px solid #f5c97a; font-size: 0.72rem; border-radius: 3px; padding: 0.6rem 0.75rem; line-height: 1.55; color: #7a4500; }
+  .approval-note strong { color: #5a3000; }
 
   .tags-wrap { display: flex; flex-wrap: wrap; gap: 4px; }
   .tag { font-size: 0.65rem; color: var(--gold-dark); }
@@ -174,6 +178,7 @@
 
   .summary-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.25rem; }
   .summary-pill { background: rgba(184,150,90,0.12); border: 1px solid rgba(184,150,90,0.3); border-radius: 100px; padding: 4px 12px; font-size: 0.7rem; color: var(--gold-light); letter-spacing: 0.05em; }
+  .summary-pill.banned { background: rgba(180,30,30,0.1); border-color: rgba(180,30,30,0.3); color: #f4b0b0; }
 
   footer { border-top: 1px solid var(--border); padding: 1.25rem 2.5rem; display: flex; justify-content: space-between; align-items: center; }
   .footer-brand { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; color: var(--muted); letter-spacing: 0.1em; }
@@ -184,7 +189,6 @@
   @media (max-width: 640px) {
     .topbar, .hero, .event-strip, .controls, .phase-section, .voice-section, footer { padding-left: 1.25rem; padding-right: 1.25rem; }
     .phase-divider { margin: 0 1.25rem; }
-    .format-filter { margin-left: 0; }
     .hero-meta { gap: 1.25rem; }
   }
 </style>
@@ -197,14 +201,14 @@
 </div>
 
 <div class="hero">
-  <div class="hero-eyebrow">@velvet_rope_collective — Instagram Content Calendar</div>
-  <h1 class="hero-title">90-Day Brand<br>Storytelling <em>Plan</em></h1>
-  <div class="hero-event">Phil &amp; Friends · Nashville · October 9–11, 2026</div>
+  <div class="hero-eyebrow">@velvet_rope_collective — Content Calendar</div>
+  <h1 class="hero-title">The Nashville<br><em>Experience</em></h1>
+  <div class="hero-event">Phil &amp; Friends · Nashville · October 9–11, 2026 · Confirmations close September 17</div>
   <div class="hero-meta">
-    <div class="meta-item"><div class="meta-n">15</div><div class="meta-l">Instagram posts</div></div>
-    <div class="meta-item"><div class="meta-n">5</div><div class="meta-l">LinkedIn posts</div></div>
+    <div class="meta-item"><div class="meta-n">27</div><div class="meta-l">Planned posts</div></div>
+    <div class="meta-item"><div class="meta-n">8</div><div class="meta-l">LinkedIn posts</div></div>
     <div class="meta-item"><div class="meta-n">6</div><div class="meta-l">Reels</div></div>
-    <div class="meta-item"><div class="meta-n">3</div><div class="meta-l">Story phases</div></div>
+    <div class="meta-item"><div class="meta-n">4</div><div class="meta-l">Content phases</div></div>
   </div>
 </div>
 
@@ -213,9 +217,11 @@
   <span class="event-sep">·</span>
   <span class="event-item">Conrad Nashville</span>
   <span class="event-sep">·</span>
-  <span class="event-item">By Invitation Only</span>
+  <span class="event-item">Davis Estates Wine</span>
   <span class="event-sep">·</span>
-  <span class="event-item">Vanderbilt Medical Center Emergency Services — $50K</span>
+  <span class="event-item">Carey Bringle · Peg Leg Porker</span>
+  <span class="event-sep">·</span>
+  <span class="event-item">Vanderbilt Medical Center Emergency Services</span>
   <span class="event-sep">·</span>
   <span class="event-item">Oct 9–11, 2026</span>
 </div>
@@ -232,6 +238,7 @@
   <div class="format-sep"></div>
   <span class="controls-label">Format</span>
   <button class="filter-btn" onclick="filter('format','reel',this)">Reels only</button>
+  <button class="filter-btn" onclick="filter('format','carousel',this)">Carousels only</button>
   <button class="filter-btn" onclick="filter('format','photo',this)">Photos only</button>
   <div class="format-sep"></div>
   <span class="controls-label">Platform</span>
@@ -246,120 +253,442 @@
     <div class="voice-icon">"</div>
     <div>
       <div class="voice-title">Brand voice — the standard for every post</div>
-      <p class="voice-text"><strong>Warm and specific</strong> — never scripted. Use the real details: Phil's barn, the Conrad, Vanderbilt. Specificity is what makes people believe it. <strong>Don't over-explain.</strong> Build intrigue, leave room for curiosity. <strong>Let scarcity do the work</strong> — the room is intentionally limited. Say it once, cleanly. No sales pitch. <strong>Weave in the giving</strong> — guests should feel proud to be part of something that matters, not lectured at. <strong>No pricing on social. No dates until Phase 2.</strong> Write like you're telling one person something extraordinary, not broadcasting to a crowd.</p>
+      <p class="voice-text"><strong>Warm and specific</strong> — use the real details. Phil's barn, the Conrad, Vanderbilt. Specificity is what makes people believe it. <strong>Say what happens</strong> — where detail and intrigue compete, detail wins. At seven weeks out, curiosity is the wrong instinct. <strong>Write to one person</strong> — every post should be something a person can forward to one other person by name. <strong>Dates are public from week one.</strong> October 9 to 11, 2026 appears in posts from July 28 onward. <strong>No pricing on social.</strong> No headcount numbers anywhere — use intimate group, small gathering, or limited capacity. <strong>Weave in the giving</strong> — guests should feel proud to be part of something that matters, never lectured at. <strong>Approvals required</strong> before any post naming Phil Vassar, Carey Bringle, Brandon Davis, Rob DelliBovi, Conrad Nashville, or Vanderbilt runs.</p>
       <div class="summary-row">
-        <span class="summary-pill">Warm · not scripted</span>
-        <span class="summary-pill">Intriguing · not over-explained</span>
-        <span class="summary-pill">Exclusive · not pretentious</span>
-        <span class="summary-pill">Purposeful · giving woven in</span>
+        <span class="summary-pill">Warm · specific</span>
+        <span class="summary-pill">Detail over intrigue</span>
+        <span class="summary-pill">Dates public · Oct 9–11</span>
         <span class="summary-pill">No pricing on social</span>
-        <span class="summary-pill">No dates until Phase 2</span>
+        <span class="summary-pill">No headcount numbers</span>
         <span class="summary-pill">By invitation. By referral. By design.</span>
+        <span class="summary-pill">Carey Bringle: JBH guest chef + Memphis in May — never semifinalist</span>
+      </div>
+      <div class="summary-row" style="margin-top:0.5rem">
+        <span class="summary-pill banned">✕ luxury</span>
+        <span class="summary-pill banned">✕ exclusive</span>
+        <span class="summary-pill banned">✕ VIP</span>
+        <span class="summary-pill banned">✕ premium</span>
+        <span class="summary-pill banned">✕ world-class</span>
+        <span class="summary-pill banned">✕ elevated</span>
       </div>
     </div>
   </div>
 </div>
 
 <footer>
-  <span class="footer-brand">VRC · Velvet Rope Collective, LLC · April 2026</span>
+  <span class="footer-brand">VRC · Velvet Rope Collective, LLC · July 2026</span>
   <span class="footer-note">Confidential — internal use only</span>
 </footer>
 
 <script>
 const data = [
   {
-    phase: 1, phaseName: "Establish", phaseGoal: "May 30 – Aug 10 · Posts 01–04 + WH",
-    phaseDesc: "Build the world before you sell the event. Posts are atmospheric and access-driven, building intrigue week by week before Nashville content comes in.",
+    phase: 0, phaseName: "Posted", phaseGoal: "May 30 – July 27",
+    phaseDesc: "Content already live on @velvet_rope_collective.",
     posts: [
       {
         num:"01", type:"teaser", typeLabel:"Event teaser", format:"photo", formatLabel:"Photo", week:"May 30", posted:true,
         title:"We Are Live",
-        hook:"\"WE ARE LIVE\" text overlay on an outdoor pathway/garden scene. VRCEXPERIENCES.COM centered at the bottom. Clean, bold, declarative. Posted as the official launch post.",
-        caption:"\"Some things are not meant to be found. They are meant to find you.\n\nVelvet Rope Collective is officially live, and with it, the first invitation. We have spent months designing a event that does not exist anywhere else. A private estate. The Conrad Nashville. A James Beard semifinalist in the kitchen. A meaningful donation to Vanderbilt Medical Center Emergency Services. A deliberately curated room of people who were personally chosen to be there.\n\nNashville is first. More cities are coming.\n\nNo tickets. No public list. Just an invitation that you can request from the link in our bio.\n\n✨ By invitation. By referral. By design. ✨\"",
+        hook:"\"WE ARE LIVE\" text overlay on an outdoor pathway/garden scene. VRCEXPERIENCES.COM centered at the bottom.",
+        caption:"\"Some things are not meant to be found. They are meant to find you.\n\nVelvet Rope Collective is officially live, and with it, the first invitation. We have spent months designing an event that does not exist anywhere else. A private estate. The Conrad Nashville. A James Beard semifinalist in the kitchen. A meaningful donation to Vanderbilt Medical Center Emergency Services. A deliberately curated room of people who were personally chosen to be there.\n\nNashville is first. More cities are coming.\n\nNo tickets. No public list. Just an invitation that you can request from the link in our bio.\n\n✨ By invitation. By referral. By design. ✨\"",
         reelNote:null,
-        format_detail:"Single photo with text overlay. Already posted — live.",
+        format_detail:"Single photo with text overlay. Already posted. Note: caption references 'James Beard semifinalist' — credential has since been corrected. Caption cannot be changed post-posting.",
         cta:"Link in bio → invitation request form.",
-        tags:["#VRC","#VelvetRopeCollective","#InviteOnly"]
+        tags:["#VRC","#VelvetRopeCollective","#InviteOnly"],
+        approvalNote: null
       },
       {
         num:"PIN", type:"teaser", typeLabel:"Event teaser", format:"photo", formatLabel:"Photo · Pinned Grid", week:"June 18", posted:true,
         title:"The velvet rope triptych — pinned",
-        hook:"Three photos posted separately that form one seamless image when pinned to the top of the profile grid. A velvet rope shot across all three panels. Pinned in order so the grid reads as one cohesive image.",
-        caption:"Post 1: \"The Nashville Experience: By invitation\" | Post 2: \"...By referral\" | Post 3: \"...By design\" — one caption per panel, no other text.",
+        hook:"Three photos that form one seamless image when pinned to the top of the profile grid.",
+        caption:"Post 1: \"The Nashville Experience: By invitation\" | Post 2: \"...By referral\" | Post 3: \"...By design\"",
         reelNote:null,
-        format_detail:"Three separate photo posts, each a panel of one wide image. Pinned to top of grid in correct order (right posted first, left posted last). No hashtags. No additional copy.",
-        cta:"None. The pinned grid is the statement.",
-        tags:[]
-      },
-      {
-        num:"WH", type:"teaser", typeLabel:"Event teaser", format:"photo", formatLabel:"Photo", week:"Week of July 20",
-        title:"Tennessee whisky",
-        hook:"A single glass of Tennessee whisky — warm light, rich amber, no branding visible. Atmospheric and still. Could be on a barrel, a wood table, or a windowsill with soft background light.",
-        caption:"\"[Caption TBD — Notes of ___, ___, and ___.]\"\n\nOptions: \"Notes of cedar. Of October. Of a seat that has not yet been filled.\" / \"Notes of oak. Of smoke. Of an evening that has not happened yet.\" / \"Notes of limestone, smoke, and a room you had to be invited into.\"",
-        reelNote:null,
-        format_detail:"Single close-up image, rich warm tones. No logos, no labels visible.",
+        format_detail:"Three separate photo posts pinned to top of grid. Already posted.",
         cta:"None.",
-        tags:["#VRC","#Nashville","#Tennessee","#VelvetRopeCollective"]
+        tags:[],
+        approvalNote: null
       },
       {
-        num:"02", type:"bts", typeLabel:"Behind the scenes", format:"photo", formatLabel:"Photo", week:"Week of July 27",
-        title:"The kitchen",
-        hook:"A beautiful editorial food image — mise en place, a single plated dish, or hands at work in a kitchen. Nothing that names anyone. Evokes precision and craft without explanation.",
-        caption:"\"The kitchen is in good hands. We will leave it at that for now.\"",
+        num:"WH", type:"teaser", typeLabel:"Event teaser", format:"photo", formatLabel:"Photo", week:"July 20", posted:true,
+        title:"Thistle & Rye",
+        hook:"A frothy coupe cocktail on dark marble with white veining. A hand-illustrated bee floats on the foam. Moody, atmospheric.",
+        caption:"\"The Thistle and Rye.\n\nJefferson Rye. Black garlic. Lapsang tea. Egg white.\n\nEvery detail at a VRC event is a decision. Including what is in your glass.\n\n#VelvetRopeCollective #VRC #InviteOnly #Nashville #NashvilleScene #NashvilleDrinks #NashvilleFoodScene #NashvilleNightlife #CraftCocktail #CocktailPhotography\"",
         reelNote:null,
-        format_detail:"Single editorial image, warm tones. No logos, no names.",
-        cta:"None. Let the image do the work.",
-        tags:["#VRC","#VelvetRopeCollective","#Nashville","#JamesBeard"]
+        format_detail:"Single close-up image, dark marble, moody warm tones. Already posted.",
+        cta:"None.",
+        tags:["#VelvetRopeCollective","#VRC","#InviteOnly","#Nashville","#NashvilleScene","#NashvilleDrinks","#CraftCocktail"],
+        approvalNote: null
       },
       {
-        num:"03", type:"venue", typeLabel:"Venue / access", format:"photo", formatLabel:"Photo", week:"Week of Aug 3",
-        title:"The Conrad Nashville",
-        hook:"Best available shot of the Conrad Nashville — lobby, a suite, or a styled corner. Post 01 named it. This post shows it and makes it feel real. Elevated, warm, specific.",
-        caption:"\"Where guests wake up on October 10th. The weekend starts the moment you arrive.\"",
+        num:"02", type:"bts", typeLabel:"Behind the scenes", format:"photo", formatLabel:"Photo", week:"July 27", posted:true,
+        title:"Kayne Prime — Nashville",
+        hook:"Plated food from Kayne Prime, Nashville. Editorial shot, warm tones.",
+        caption:"\"Nashville does not do anything halfway.\n\nKayne Prime. One of several reasons this city was not chosen at random.\"",
         reelNote:null,
-        format_detail:"Single hero image, maximum quality. Portrait or landscape.",
-        cta:"Link in bio → invitation request.",
-        tags:["#VRC","#ConradNashville","#Nashville","#VelvetRopeCollective","#InviteOnly"]
+        format_detail:"Single editorial food image, warm tones. Already posted.",
+        cta:"None.",
+        tags:["#VRC","#VelvetRopeCollective","#Nashville","#KaynePrime","#NashvilleEats","#NashvilleFoodScene"],
+        approvalNote: null
+      }
+    ]
+  },
+  {
+    phase: 1, phaseName: "Establish", phaseGoal: "July 28 – Aug 9 · Posts 1–6",
+    phaseDesc: "Say plainly what this is, when it is, and who is behind it. Dates, venue, itinerary and named partners all run publicly from week one. Someone who gets referred and looks us up has to be able to learn whether they are free that weekend.",
+    posts: [
+      {
+        num:"1", type:"teaser", typeLabel:"Event teaser", format:"photo", formatLabel:"Photo", week:"Tue July 28",
+        title:"The Nashville Experience",
+        hook:"One photograph of the Conrad Nashville exterior, or the Nashville skyline at dusk. No text on the image.",
+        caption:"[Caption to draft — must include: The event name. The dates, October 9 to 11, 2026. The hotel. That the group is small and attendance is by invitation. Close with By Invitation. By Referral. By Design.]",
+        reelNote:null,
+        format_detail:"Single photo, no text overlay. Conrad exterior or Nashville skyline at dusk. Approved lockup file on file before this runs.",
+        cta:"Link in bio → invitation page.",
+        tags:["#VelvetRopeCollective","#Nashville","#InviteOnly","#ConradNashville"],
+        approvalNote: null
       },
+      {
+        num:"2", type:"teaser", typeLabel:"Event teaser", format:"carousel", formatLabel:"Carousel", week:"Thu July 30",
+        title:"How an invitation works",
+        hook:"Three text frames, cream type on navy. Frame 1: You do not apply. Frame 2: You get asked. Frame 3: How a referral reaches us and where to go next.",
+        caption:"[Caption to draft — must include: That there is no form and no waitlist. That every place comes from a referral by someone already in the room. The link to the invitation page.]",
+        reelNote:null,
+        format_detail:"Three brand text cards, cream on navy.",
+        cta:"Link in bio → invitation page.",
+        tags:["#VelvetRopeCollective","#InviteOnly","#ByReferral"],
+        approvalNote: null
+      },
+      {
+        num:"3", type:"credibility", typeLabel:"Credibility", format:"carousel", formatLabel:"Carousel", week:"Sat Aug 1", platform:"both",
+        title:"Who is behind it",
+        hook:"Three frames, one person per frame. Headshot with name, title, and two lines of background. Bob Pfeffer. Sharon Osborn. Rob DelliBovi.",
+        caption:"[Caption to draft — must include: Bob Pfeffer, Managing Partner, Marriott career across Gaylord properties and Marco Island. Sharon, Co-Founder, hospitality operations and training design. Rob DelliBovi, Founding Advisor, RDB Hospitality. Say what each has built, not only where each has worked.]",
+        reelNote:null,
+        format_detail:"Three-frame carousel. One headshot per frame. Name, title, two lines of background.",
+        cta:"Follow for more.",
+        tags:["#VelvetRopeCollective","#Nashville","#MeetTheTeam"],
+        approvalNote: "Rob DelliBovi must approve his frame in writing before this runs."
+      },
+      {
+        num:"4", type:"teaser", typeLabel:"Event teaser", format:"carousel", formatLabel:"Carousel", week:"Tue Aug 4",
+        title:"What is included",
+        hook:"Five frames, one inclusion each. A real photograph with a short label rather than a text card.",
+        caption:"[Caption to draft — must include: Three nights at Conrad Nashville. Every meal across three days. A private evening at Phil Vassar's barn. Wine from Davis Estates. Ground transport throughout. Then: nothing to arrange on arrival, nothing paid for on site. No price anywhere.]",
+        reelNote:null,
+        format_detail:"Five-frame carousel. One photograph per inclusion with a short label. No price on any frame.",
+        cta:"Link in bio → invitation page.",
+        tags:["#VelvetRopeCollective","#Nashville","#InviteOnly","#PhilVassar","#ConradNashville","#DavisEstates"],
+        approvalNote: null
+      },
+      {
+        num:"6", type:"venue", typeLabel:"Venue / access", format:"photo", formatLabel:"Photo", week:"Sat Aug 8",
+        title:"Nashville before it wakes up",
+        hook:"One photograph of Broadway or a side street in early morning light. Empty, no people, no signage clutter.",
+        caption:"[Caption to draft — two lines only. The place, then the dates.]",
+        reelNote:null,
+        format_detail:"Single photo, early morning Nashville. Licensed or original photography.",
+        cta:"None.",
+        tags:["#Nashville","#VelvetRopeCollective","#NashvilleTN"],
+        approvalNote: null
+      }
+    ]
+  },
+  {
+    phase: 2, phaseName: "Prove", phaseGoal: "Aug 10 – Aug 30 · Posts 7–15",
+    phaseDesc: "Named partners and hour by hour detail. Show the full picture of what three days looks like — who is cooking, where guests stay, what the barn feels like. Every post in this phase earns the ask that comes later.",
+    posts: [
+      {
+        num:"7", type:"venue", typeLabel:"Venue / access", format:"carousel", formatLabel:"Carousel", week:"Tue Aug 11",
+        title:"Day One",
+        hook:"Four frames covering arrival and check in, the afternoon, the opening evening, and where the night ends. A real photograph of each location.",
+        caption:"[Caption to draft — must include: Times where you have them. What happens, where it happens, and what a guest does not have to arrange for themselves.]",
+        reelNote:null,
+        format_detail:"Four-frame carousel. Real photographs — Conrad interiors, opening evening venue.",
+        cta:"Link in bio → invitation page.",
+        tags:["#VelvetRopeCollective","#Nashville","#ConradNashville","#InviteOnly"],
+        approvalNote: null
+      },
+      {
+        num:"8", type:"artist", typeLabel:"Artist / talent", format:"reel", formatLabel:"Reel", week:"Thu Aug 13",
+        title:"An evening at Phil Vassar's barn",
+        hook:"Reel 30 to 45 seconds from site visit footage. Exterior at dusk, the interior, the stage area. On screen text only, no voiceover.",
+        caption:"[Caption to draft — must include: Phil Vassar by name. That this is a private evening at his barn for this group and not a ticketed show. The dates, October 9 to 11, 2026.]",
+        reelNote:"30 to 45 seconds. Site visit footage — barn exterior at dusk, interior, stage area. On screen text only, no voiceover. Best still saved as grid cover.",
+        format_detail:"Reel from site visit footage. Best still as grid cover.",
+        cta:"Link in bio → invitation page.",
+        tags:["#VelvetRopeCollective","#PhilVassar","#Nashville","#SongwriterRound","#InviteOnly"],
+        approvalNote: "Phil Vassar must sign off on frames and wording before this runs."
+      },
+      {
+        num:"9", type:"mission", typeLabel:"Mission / giving", format:"carousel", formatLabel:"Carousel", week:"Sat Aug 15", platform:"both",
+        title:"Why Vanderbilt",
+        hook:"Three frames. Frame 1 names Emergency Services at Vanderbilt Medical Center. Frame 2 describes what the support goes toward. Frame 3 connects it back to the weekend.",
+        caption:"[Caption to draft — must include: What the commitment supports and why it takes the form of a small gathering rather than a gala. Written so a guest feels proud rather than lectured at. No dollar figure.]",
+        reelNote:null,
+        format_detail:"Three-frame carousel. Vanderbilt imagery — written permission required before this runs. Counsel review required on the commitment figure.",
+        cta:"None.",
+        tags:["#VelvetRopeCollective","#VanderbiltMedicalCenter","#Nashville","#GivingBack"],
+        approvalNote: "Written permission from Vanderbilt required. Counsel must review wording on the giving commitment before this runs."
+      },
+      {
+        num:"10", type:"venue", typeLabel:"Venue / access", format:"carousel", formatLabel:"Carousel", week:"Tue Aug 18",
+        title:"Day Two",
+        hook:"Four frames, same structure as Day One. Morning, midday, afternoon, evening, each with a real photograph.",
+        caption:"[Caption to draft — must include: Times, locations, what happens in each block, and who the group is with.]",
+        reelNote:null,
+        format_detail:"Four-frame carousel. Real venue and activity photography for each block of the day.",
+        cta:"Link in bio → invitation page.",
+        tags:["#VelvetRopeCollective","#Nashville","#InviteOnly"],
+        approvalNote: null
+      },
+      {
+        num:"11", type:"artist", typeLabel:"Artist / talent", format:"photo", formatLabel:"Photo", week:"Thu Aug 20",
+        title:"Peg Leg Porker — Carey Bringle",
+        hook:"Photo set of three or four images. Carey Bringle, the pit, and the food.",
+        caption:"[Caption to draft — must include: That Carey Bringle is cooking for the group. That he is a James Beard House guest chef and a Memphis in May competitor. What he is making. NEVER write semifinalist — that credential is not accurate.]",
+        reelNote:null,
+        format_detail:"Photo set 3–4 images. Peg Leg Porker imagery.",
+        cta:"None.",
+        tags:["#VelvetRopeCollective","#Nashville","#PegLegPorker","#CareyBringle","#NashvilleBBQ"],
+        approvalNote: "Carey Bringle must approve before this runs."
+      },
+      {
+        num:"12", type:"bts", typeLabel:"Behind the scenes", format:"reel", formatLabel:"Reel", week:"Sat Aug 22",
+        title:"Site visit",
+        hook:"Reel 20 to 30 seconds from footage already captured. Walking the barn, the drive in, paperwork on a table. Unpolished on purpose.",
+        caption:"[Caption to draft — must include: Where we were and what we were checking. Plain language, no production gloss.]",
+        reelNote:"20 to 30 seconds. Already-captured site visit footage. Unpolished on purpose — authenticity is the point.",
+        format_detail:"Reel from existing site visit footage. Best still as grid cover.",
+        cta:"None.",
+        tags:["#VelvetRopeCollective","#Nashville","#BehindTheScenes","#EveryDetailIsADecision"],
+        approvalNote: null
+      },
+      {
+        num:"13", type:"venue", typeLabel:"Venue / access", format:"carousel", formatLabel:"Carousel", week:"Tue Aug 25",
+        title:"Day Three",
+        hook:"Four frames covering the final morning through departure.",
+        caption:"[Caption to draft — must include: How the weekend closes and that departure is handled end to end.]",
+        reelNote:null,
+        format_detail:"Four-frame carousel. Closing morning imagery.",
+        cta:"None.",
+        tags:["#VelvetRopeCollective","#Nashville","#InviteOnly"],
+        approvalNote: null
+      },
+      {
+        num:"14", type:"artist", typeLabel:"Artist / talent", format:"photo", formatLabel:"Photo", week:"Thu Aug 27",
+        title:"Davis Estates — Brandon Davis",
+        hook:"Photo set. Vineyard and bottle imagery, plus one photograph of Brandon Davis.",
+        caption:"[Caption to draft — must include: That Davis Estates is pouring and that Brandon Davis is attending in person. Lead with his attendance, not with tasting notes.]",
+        reelNote:null,
+        format_detail:"Photo set. Davis Estates imagery plus portrait of Brandon Davis.",
+        cta:"None.",
+        tags:["#VelvetRopeCollective","#Nashville","#DavisEstates","#Wine"],
+        approvalNote: "Brandon Davis must approve use of his name and image in writing before this runs."
+      },
+      {
+        num:"15", type:"venue", typeLabel:"Venue / access", format:"reel", formatLabel:"Reel", week:"Sat Aug 29",
+        title:"Conrad Nashville",
+        hook:"Reel 30 seconds of property footage. A room, the lobby, the walk toward Broadway, morning light.",
+        caption:"[Caption to draft — must include: That this is the base for all three nights, and how close it sits to everything else on the itinerary.]",
+        reelNote:"30 seconds. Conrad property footage — room, lobby, walk toward Broadway, morning light.",
+        format_detail:"Reel of Conrad property footage. Best still as grid cover.",
+        cta:"Link in bio → invitation page.",
+        tags:["#VelvetRopeCollective","#ConradNashville","#Nashville","#InviteOnly"],
+        approvalNote: "Conrad Nashville must approve use of property footage before this runs."
+      }
+    ]
+  },
+  {
+    phase: 3, phaseName: "Decide", phaseGoal: "Aug 31 – Sept 17 · Posts 16–24",
+    phaseDesc: "The deadline is a fact, not a tactic. Confirmations close September 17. State it plainly and let the silence after it do the work. No countdown language, no urgency wrapper.",
+    posts: [
+      {
+        num:"16", type:"teaser", typeLabel:"Event teaser", format:"photo", formatLabel:"Photo", week:"Tue Sept 1",
+        title:"Confirmations close September 17",
+        hook:"One text graphic. The sentence and nothing else on the frame.",
+        caption:"[Caption to draft — one sentence stating the close date and the invitation link. No countdown language, no urgency wrapper.]",
+        reelNote:null,
+        format_detail:"Single brand text card. One sentence only.",
+        cta:"Link in bio → invitation page.",
+        tags:["#VelvetRopeCollective","#Nashville","#InviteOnly"],
+        approvalNote: null
+      },
+      {
+        num:"17", type:"credibility", typeLabel:"Credibility", format:"carousel", formatLabel:"Carousel", week:"Thu Sept 3", platform:"both",
+        title:"Who is in the room",
+        hook:"Three text frames describing the group by profession and region.",
+        caption:"[Caption to draft — must include: The kinds of people who tend to be in the room and why the group stays small. No number and no headcount word. Use intimate group, small gathering or limited capacity.]",
+        reelNote:null,
+        format_detail:"Three text frames on brand. No names, no numbers — describe by profession and region.",
+        cta:"Link in bio → invitation page.",
+        tags:["#VelvetRopeCollective","#Nashville","#InviteOnly"],
+        approvalNote: null
+      },
+      {
+        num:"18", type:"mission", typeLabel:"Mission / giving", format:"reel", formatLabel:"Reel", week:"Sat Sept 5",
+        title:"What the weekend leaves behind",
+        hook:"Reel 45 to 60 seconds returning to the giving. On screen text or a short voiceover.",
+        caption:"[Caption to draft — shorter and warmer than Post 9. What outlasts the three days. Still no dollar figure.]",
+        reelNote:"45 to 60 seconds. On screen text or short voiceover. Warmer and shorter than Post 9. Counsel review required on the giving figure.",
+        format_detail:"Short reel. On screen text or voiceover.",
+        cta:"None.",
+        tags:["#VelvetRopeCollective","#Nashville","#VanderbiltMedicalCenter","#GivingBack"],
+        approvalNote: "Counsel must review wording on the giving commitment before this runs."
+      },
+      {
+        num:"19", type:"teaser", typeLabel:"Event teaser", format:"carousel", formatLabel:"Carousel", week:"Tue Sept 8",
+        title:"The full three days",
+        hook:"Eight frames covering every block across all three days, built to be read straight through. Also exported as an identical PDF.",
+        caption:"[Caption to draft — must include: The complete run of the weekend. Dates, hotel, named partners, everything included. Ends on confirmations close September 17.]",
+        reelNote:null,
+        format_detail:"Eight-frame carousel. Complete itinerary in order. Also exported as a PDF. This is the definitive public itinerary post.",
+        cta:"Link in bio → invitation page. PDF also linked.",
+        tags:["#VelvetRopeCollective","#Nashville","#PhilVassar","#ConradNashville","#InviteOnly"],
+        approvalNote: null
+      },
+      {
+        num:"20", type:"credibility", typeLabel:"Credibility", format:"photo", formatLabel:"Photo", week:"Thu Sept 10", platform:"both",
+        title:"Rob DelliBovi — Founding Advisor",
+        hook:"Portrait with a pulled quote set over or beside it.",
+        caption:"[Caption to draft — must include: Rob's role as Founding Advisor and RDB Hospitality, and in his own words why this one. Written for travel advisor and wealth audience.]",
+        reelNote:null,
+        format_detail:"Portrait with approved pulled quote.",
+        cta:"Follow for updates.",
+        tags:["#VelvetRopeCollective","#Nashville","#Hospitality","#TravelAdvisor"],
+        approvalNote: "Rob DelliBovi must approve the quote in writing before this runs."
+      },
+      {
+        num:"21", type:"artist", typeLabel:"Artist / talent", format:"carousel", formatLabel:"Carousel", week:"Sat Sept 12",
+        title:"The people making it",
+        hook:"Four frames, one each for Phil Vassar, Carey Bringle, Davis Estates and Conrad Nashville. Reuses imagery from earlier partner posts.",
+        caption:"[Caption to draft — all four named, one line each on what they are doing for the weekend.]",
+        reelNote:null,
+        format_detail:"Four-frame carousel reusing assets from posts 8, 11, 14 and 15. All approvals already covered by earlier sign-offs.",
+        cta:"Link in bio → invitation page.",
+        tags:["#VelvetRopeCollective","#PhilVassar","#CareyBringle","#DavisEstates","#ConradNashville","#Nashville"],
+        approvalNote: null
+      },
+      {
+        num:"22", type:"teaser", typeLabel:"Event teaser", format:"photo", formatLabel:"Photo", week:"Mon Sept 14",
+        title:"Three days to confirm",
+        hook:"One text graphic, same treatment as the September 1 post.",
+        caption:"[Caption to draft — restate the close date and the link. Nothing else.]",
+        reelNote:null,
+        format_detail:"Single brand text card. Same treatment as Post 16.",
+        cta:"Link in bio → invitation page.",
+        tags:["#VelvetRopeCollective","#Nashville","#InviteOnly"],
+        approvalNote: null
+      },
+      {
+        num:"23", type:"teaser", typeLabel:"Event teaser", format:"story", formatLabel:"Story", week:"Wed Sept 16",
+        title:"Confirmations close tomorrow",
+        hook:"One Story frame. Does not go to the grid.",
+        caption:"[Caption: The date and the link.]",
+        reelNote:null,
+        format_detail:"Instagram Story only — does not appear on the grid.",
+        cta:"Link sticker → invitation page.",
+        tags:[],
+        approvalNote: null
+      },
+      {
+        num:"24", type:"teaser", typeLabel:"Event teaser", format:"story", formatLabel:"Story", week:"Thu Sept 17",
+        title:"Today",
+        hook:"One Story frame posted in the morning. Nothing posted after it that day.",
+        caption:"[Caption: One line. Silence after a stated deadline is more credible than an extension.]",
+        reelNote:null,
+        format_detail:"Instagram Story only. Posted once in the morning. Nothing after. Grid stays quiet.",
+        cta:"None.",
+        tags:[],
+        approvalNote: null
+      }
+    ]
+  },
+  {
+    phase: 4, phaseName: "After", phaseGoal: "Sept 21 – Oct 26 · Posts 25–27",
+    phaseDesc: "Stop selling. The grid goes quiet during the event. These three posts are the marketing for every city that follows.",
+    posts: [
+      {
+        num:"25", type:"bts", typeLabel:"Behind the scenes", format:"reel", formatLabel:"Reel", week:"Mon Sept 21",
+        title:"Build week",
+        hook:"Reel of production and load in. The barn being set, deliveries, the room before anyone arrives.",
+        caption:"[Caption to draft — what is being built and by whom. No offer, no link, no ask.]",
+        reelNote:"Ongoing capture through build week. The barn being set, deliveries, the room before anyone arrives.",
+        format_detail:"Reel from build week capture. No offer, no link, no ask.",
+        cta:"None.",
+        tags:["#VelvetRopeCollective","#Nashville","#BehindTheScenes"],
+        approvalNote: null
+      },
+      {
+        num:"26", type:"bts", typeLabel:"Behind the scenes", format:"story", formatLabel:"Story", week:"Oct 9–11",
+        title:"Live — October 9 to 11",
+        hook:"Stories only across all three days. Grid stays quiet so guests do not feel they are inside a content shoot.",
+        caption:"[Light, in the moment, no captions selling anything.]",
+        reelNote:null,
+        format_detail:"Instagram Stories only. Grid stays completely quiet. Photographer and videographer on site all three days. Image release language must be confirmed in Event Participation Agreement before the event.",
+        cta:"None.",
+        tags:[],
+        approvalNote: "Image release language must sit in the Event Participation Agreement before October 9."
+      },
+      {
+        num:"27", type:"bts", typeLabel:"Behind the scenes", format:"reel", formatLabel:"Reel", week:"Mon Oct 26", platform:"both",
+        title:"The Nashville Experience, 2026",
+        hook:"The recap film, edited to 90 seconds. Cut from full event capture.",
+        caption:"[Caption to draft — what the three days were. Written for someone who was not there. This is the asset that sells the next city.]",
+        reelNote:"90 seconds. Full event capture, edited. Written for someone who was not there. This sells the next city.",
+        format_detail:"Reel plus LinkedIn post. 90-second recap film. Guest image releases required under the participation agreement.",
+        cta:"Follow for what comes next.",
+        tags:["#VelvetRopeCollective","#Nashville","#NashvilleExperience","#PhilVassar","#InviteOnly"],
+        approvalNote: "Guest images must be cleared under the Event Participation Agreement before this runs."
+      }
+    ]
+  },
+  {
+    phase: 5, phaseName: "LinkedIn", phaseGoal: "Spotlight Series · Dates TBD",
+    phaseDesc: "Weekly team spotlights on the VRC LinkedIn company page. Bob's post is live. All remaining dates TBD pending scheduling.",
+    posts: [
       {
         num:"S1", type:"credibility", typeLabel:"Credibility", format:"linkedin", formatLabel:"LinkedIn · Spotlight", week:"Tue July 1 · 11am", posted:true, platform:"linkedin",
         title:"Meet the team — Bob Pfeffer",
-        hook:"Longer founder feature. Photo: Marriott retirement stage photo — candid, not a headshot. First and longest post in the weekly spotlight series.",
-        caption:"\"Ask Bob Pfeffer what drives him and he will give you three words. He credits them to his longtime friend Mike Veeck, legendary sports promoter and innovator. But forty years in hospitality have made them entirely his own: fun is good.\n\nNot as a platitude. As a philosophy. It is the first value on the VRC list, the thing he says most often in a meeting, and the belief that has guided every room he has ever built.\n\nAt Marriott International, Bob oversaw more than 125 properties. Along the way, he built Meet with Momentum, a program that quietly challenged how the industry thought about meetings. He has described the thinking himself: \"Small, immersive experiences create deeper relationships. VRC takes that philosophy and applies it outside the convention space entirely. No quotas. No KPIs. Just access, in its truest form.\"\n\nHe spent forty years building that philosophy for other people. He built VRC to prove it on his own terms. Nashville is first, with more cities to follow.\n\nAway from work, Bob is a sports and music lover. Both have always been about the same thing: being in the room when something extraordinary happens.\n\nIf you ask him why he built all of this, the answer is the same one he gives for everything.\n\nFun is good.\n\n#VelvetRopeCollective #MeetTheTeam #Founder #Hospitality #Leadership #Nashville\"",
+        hook:"Founder feature. Photo: Marriott retirement stage photo — candid, not a headshot.",
+        caption:"\"Ask Bob Pfeffer what drives him and he will give you three words... [full caption on file — posted]\"",
         reelNote:null,
-        format_detail:"Single portrait image — Marriott retirement stage photo. Candid, not a headshot. No graphic overlay.",
-        cta:"Follow VRC for weekly team features. Link in bio → invitation request.",
-        tags:["#VelvetRopeCollective","#MeetTheTeam","#Hospitality","#Founder","#Leadership","#Nashville"]
+        format_detail:"Single portrait image — Marriott retirement stage photo. Already posted.",
+        cta:"Follow VRC for weekly team features.",
+        tags:["#VelvetRopeCollective","#MeetTheTeam","#Hospitality","#Founder","#Leadership","#Nashville"],
+        approvalNote: null
       },
       {
         num:"S2", type:"credibility", typeLabel:"Credibility", format:"linkedin", formatLabel:"LinkedIn · Spotlight", week:"TBD", platform:"linkedin",
         title:"Meet the team — Sherrie Pfeffer",
-        hook:"Co-founder spotlight. Philanthropy and guest instincts as her lens. Warm, personal. No mention of real estate or day-to-day operations.",
-        caption:"\"Sherrie Pfeffer came to VRC from the other side of the rope.\n\nBefore she was a co-founder, she was a guest. She knows what it feels like when a room gets it right — that moment when people stop moving through an event and start being inside one. She has felt that, and she has spent years making sure other people feel it too.\n\nGiving has always been part of how Sherrie moves through the world. Not as a cause to champion publicly, but as a quiet, consistent practice. She has given her time to causes she believes in for years, long before VRC existed.\n\nThat is why the charitable component of every VRC event is not a line item or an afterthought. It is the part she cares about most, and the part that answers the question every guest eventually asks: why does this exist?\n\nShe brings two things to VRC that cannot be built into a business plan: a guest's instincts and a clear sense of why any of this matters.\n\nBoth show up in everything we build.\n\n#VelvetRopeCollective #MeetTheTeam #CoFounder #Philanthropy #Nashville\"",
+        hook:"Co-founder spotlight. Philanthropy and guest instincts as her lens.",
+        caption:"\"Sherrie Pfeffer came to VRC from the other side of the rope... [full caption on file]\"",
         reelNote:null,
         format_detail:"Single portrait image, warm and candid.",
         cta:"Follow for weekly team features.",
-        tags:["#VelvetRopeCollective","#MeetTheTeam","#CoFounder","#Nashville"]
+        tags:["#VelvetRopeCollective","#MeetTheTeam","#CoFounder","#Nashville"],
+        approvalNote: null
       },
       {
         num:"S3", type:"credibility", typeLabel:"Credibility", format:"linkedin", formatLabel:"LinkedIn · Spotlight", week:"TBD", platform:"linkedin",
         title:"Meet the team — Sharon Osborn",
-        hook:"VP of Commercial Services. Background: UnitedMasters (Steve Stoute), NBCUniversal, Marriott. Angle: the details most people never see — she sees them.",
-        caption:"\"Sharon Osborn has spent her career in the space most people never think about: the gap between what a brand promises and what a guest actually feels.\n\nHer work spans UnitedMasters, the music technology company founded by Steve Stoute, along with NBCUniversal and Marriott. Across each, she has done the same thing: designed the training, operations, and human systems that make an organization feel seamless from the inside out.\n\nThe difference between a good experience and an unforgettable one lives in the details most people never see, and Sharon has built a career on seeing exactly those details.\n\nAs VP of Commercial Services at VRC, she is the reason our commitments to guests, artists, and charity do not simply get made but actually get kept. She is the kind of person who sees what needs to happen before anyone else does and makes it happen.\n\nOutside of work, Sharon is a proud working mom who has made Disney a beloved and deliberate part of her family's life, because she believes the moments you create together are the ones that last.\n\n#VelvetRopeCollective #MeetTheTeam #Hospitality #Nashville\"",
+        hook:"VP of Commercial Services. UnitedMasters, NBCUniversal, Marriott background.",
+        caption:"\"Sharon Osborn has spent her career in the space most people never think about... [full caption on file]\"",
         reelNote:null,
         format_detail:"Single portrait image, warm and candid.",
         cta:"Follow for weekly team features.",
-        tags:["#VelvetRopeCollective","#MeetTheTeam","#Hospitality","#Nashville","#CommercialServices"]
+        tags:["#VelvetRopeCollective","#MeetTheTeam","#Hospitality","#Nashville"],
+        approvalNote: null
       },
       {
         num:"S4", type:"credibility", typeLabel:"Credibility", format:"linkedin", formatLabel:"LinkedIn · Spotlight", week:"TBD", platform:"linkedin",
         title:"Meet the team — Shae Weyant",
-        hook:"Shae's spotlight — Director of Client Experience, owns the brand voice and guest journey from first touchpoint.",
-        caption:"[Draft when ready — highlight Shae's role and her ownership of the brand and guest experience infrastructure.]",
+        hook:"Director of Client Experience. Brand voice and guest journey from first touchpoint.",
+        caption:"[Draft when ready.]",
         reelNote:null,
         format_detail:"Single portrait image, warm and candid.",
         cta:"Follow for weekly team features.",
-        tags:["#VelvetRopeCollective","#MeetTheTeam","#ClientExperience","#Nashville"]
+        tags:["#VelvetRopeCollective","#MeetTheTeam","#ClientExperience","#Nashville"],
+        approvalNote: null
       },
       {
         num:"S5", type:"credibility", typeLabel:"Credibility", format:"linkedin", formatLabel:"LinkedIn · Spotlight", week:"TBD", platform:"linkedin",
@@ -369,169 +698,41 @@ const data = [
         reelNote:null,
         format_detail:"Single portrait image, warm and candid.",
         cta:"Follow for weekly team features.",
-        tags:["#VelvetRopeCollective","#MeetTheTeam","#Nashville"]
+        tags:["#VelvetRopeCollective","#MeetTheTeam","#Nashville"],
+        approvalNote: null
       },
       {
         num:"L2", type:"teaser", typeLabel:"Event teaser", format:"linkedin", formatLabel:"LinkedIn", week:"TBD", platform:"linkedin",
         title:"The invitation model",
-        hook:"Thought-piece style post explaining why VRC is by invitation and referral only. Frames exclusivity as intentional design, not gatekeeping. No image required — strong text post.",
-        caption:"\"Most experiences are built for volume. VRC is built for the opposite.\n\nThirty couples per event. Not forty. Not fifty. The room is that size because the room is the product. When everyone at the table was personally chosen to be there, the conversation is different. The connections are different. The entire weekend is different.\n\nThis is not scarcity as a marketing tactic. It is how the experience works.\n\nNashville, October 2026. A small number of invitations remain. The link to request one is in our bio.\"",
+        hook:"Thought-piece post explaining why VRC is by invitation and referral only.",
+        caption:"\"Most experiences are built for volume. VRC is built for the opposite... [full caption on file]\"",
         reelNote:null,
-        format_detail:"Text-forward post. Optional: a single moody venue image as background. No graphics.",
+        format_detail:"Text-forward post. Optional: single moody venue image.",
         cta:"Link in post → invitation request.",
-        tags:["#VelvetRopeCollective","#ExclusiveEvents","#Nashville","#InviteOnly","#LuxuryExperiences"]
-      },
-      {
-        num:"04", type:"mission", typeLabel:"Mission / giving", format:"photo", formatLabel:"Photo", week:"Week of Aug 10",
-        title:"The giving, deeper",
-        hook:"A warm, human image connected to Vanderbilt Medical Center Emergency Services — first responders, real work, genuine emotion. Post 01 mentioned the donation. This post explains why it matters.",
-        caption:"\"Every VRC event ends the same way: with a check. $50,000 to Vanderbilt Medical Center Emergency Services — not as a footnote, but as part of the reason the event exists. A great time and a meaningful one should not be two different things.\"",
-        reelNote:null,
-        format_detail:"Single image. Warm and human. Tag @VanderbiltHealth. No logos.",
-        cta:"None. Plant the seed.",
-        tags:["#VRC","#VanderbiltMedicalCenter","#GivingBack","#Nashville","#VelvetRopeCollective"]
-      }
-    ]
-  },
-  {
-    phase: 2, phaseName: "Build", phaseGoal: "Aug 17 – Sept 7 · Posts 05–08",
-    phaseDesc: "Nashville becomes the anchor. Footage from the early-July Nashville site visit fuels this phase — the barn, the venue, the team in action. Introduce Phil Vassar and build real urgency.",
-    posts: [
-      {
-        num:"05", type:"venue", typeLabel:"Venue / access", format:"photo", formatLabel:"Photo", week:"Week of Aug 17",
-        title:"The barn",
-        hook:"Phil Vassar's private estate — the barn exterior at golden hour, or an interior detail: exposed wood beams, a single spotlight, a row of chairs being set. No Phil yet. No name. Just the space.",
-        caption:"\"This barn has welcomed some of the biggest names in country music. This October, it welcomes a few more — and the people lucky enough to be in the room with them. By invitation only.\"",
-        reelNote:null,
-        format_detail:"Single image or 2-photo carousel, warm tones",
-        cta:"None. Anticipation only.",
-        tags:["#VRC","#Nashville","#SongwriterRound","#PrivateConcert","#VelvetRopeCollective"]
-      },
-      {
-        num:"06", type:"bts", typeLabel:"Behind the scenes", format:"reel", formatLabel:"Reel", week:"Week of Aug 24",
-        title:"On the ground in Nashville",
-        hook:"Bob and the team walking Phil's barn and the Conrad — checking table layouts, walking the space, taking it all in. Candid, real, unpolished. Shot during early-July Nashville site visit. Text overlay: \"Every detail is a decision.\"",
-        caption:"\"On the ground in Nashville this week. Making sure every detail is right before a single guest arrives. That is the standard.\"",
-        reelNote:"20–30 seconds. Candid and slightly raw — authenticity is the point. Warm color grade. Capture: barn walk, Conrad lobby/room, team moments, any detail shots (table, lighting, signage).",
-        format_detail:"Reel, candid. Best still saved as grid cover.",
-        cta:"None. Authenticity post.",
-        tags:["#VRC","#EveryDetailIsADecision","#BehindTheVelvetRope","#VelvetRopeCollective","#Nashville"]
-      },
-      {
-        num:"07", type:"credibility", typeLabel:"Credibility", format:"photo", formatLabel:"Photo", week:"Week of Aug 31",
-        title:"The expertise behind it",
-        hook:"A strong candid of Bob — at a venue, reviewing a detail, shaking a hand. Professional but warm. Not a headshot. (Use the photo from his Marriott retirement — the one on stage. That image earns the caption.)",
-        caption:"\"Bob spent 40 years at Marriott International overseeing more than 125 convention resort properties. He knows what a great event feels like from every angle — as the operator and as the guest. VRC is everything he learned, distilled into a few extraordinary days.\"",
-        reelNote:null,
-        format_detail:"Single portrait image, editorial feel",
-        cta:"None. This is the credibility post — let it stand alone.",
-        tags:["#VRC","#VelvetRopeCollective","#Founder","#HospitalityDoneRight"]
-      },
-      {
-        num:"08", type:"teaser", typeLabel:"Event teaser", format:"reel+photo", formatLabel:"Reel + Photo", week:"Week of Sept 7",
-        title:"Nashville reveal — Phil & Friends",
-        hook:"The Conrad Nashville exterior, a slow pan of the barn interior being styled, a bourbon barrel with the VRC logo (or branded VRC item — TBD), a dinner table set for the evening. End frame text: \"Phil & Friends. Nashville. October 2026. By invitation only.\"",
-        caption:"\"Nashville. October 2026. Phil Vassar's private estate. The Conrad Nashville. A Country Music Hall of Famer. A Grand Ole Opry member. A hitmaker with 10 No. 1 singles. All on the same stage, in a room small enough to hear the guitar before you hear the amp. A meaningful donation to Vanderbilt Medical Center Emergency Services. By invitation. By referral. By design.\"",
-        reelNote:"30 seconds. This is the hero post. Best still saved to grid. This is the first time the full picture comes together.",
-        format_detail:"Reel as primary + best still saved as grid cover",
-        cta:"Link in bio → inquiry form. DM for information.",
-        tags:["#VRC","#Nashville","#PhilVassar","#InviteOnly","#VelvetRopeCollective","#ConradNashville","#VanderbiltMedicalCenterEmergencyServices"]
+        tags:["#VelvetRopeCollective","#InviteOnly","#Nashville"],
+        approvalNote: null
       },
       {
         num:"L4", type:"teaser", typeLabel:"Event teaser", format:"linkedin", formatLabel:"LinkedIn", week:"Week of Sept 7", platform:"linkedin",
         title:"Phil & Friends — the full reveal",
-        hook:"The full event announcement, LinkedIn style. Phil's credentials, the Conrad, the barn, the chef, the donation. Written as a professional announcement — warm and direct, not cinematic.",
-        caption:"\"This October, Velvet Rope Collective hosts its first event in Nashville.\n\nPhil Vassar — Country Music Hall of Famer, Grand Ole Opry member, ten No. 1 singles — performs at his private estate in an intimate songwriter round. No stage production. No arena. Just the songs and the room.\n\nGuests stay at the Conrad Nashville. A James Beard Award semifinalist is in the kitchen. A meaningful donation goes to Vanderbilt Medical Center Emergency Services.\n\nThirty couples. Personally invited. This is the only announcement we will make publicly.\n\nIf you would like to be considered for an invitation, the link is below.\"",
+        hook:"The full event announcement, LinkedIn style. Warm and direct, not cinematic.",
+        caption:"\"This October, Velvet Rope Collective hosts its first event in Nashville... [full caption on file]\"",
         reelNote:null,
-        format_detail:"Best still from IG Post 08 reel, or a strong single venue/barn image. Portrait preferred.",
+        format_detail:"Best still from Instagram Post 8, or a strong single venue/barn image.",
         cta:"Link in post → invitation request form.",
-        tags:["#VelvetRopeCollective","#Nashville","#PhilVassar","#ExclusiveEvents","#InviteOnly","#ConradNashville"]
-      }
-    ]
-  },
-  {
-    phase: 3, phaseName: "Prove", phaseGoal: "Sept 14 – Oct 11 · Posts 09–15",
-    phaseDesc: "Deliver specificity. Build urgency without pressure. By Day 90, anyone who's been following since Day 1 should feel like they watched something extraordinary get built — and need to be at the next one.",
-    posts: [
-      {
-        num:"09", type:"mission", typeLabel:"Mission / giving", format:"photo", formatLabel:"Photo", week:"Week of Sept 14",
-        title:"Vanderbilt Medical Center Emergency Services",
-        hook:"A warm, human image connected to Vanderbilt Medical Center Emergency Services — first responders, real work, genuine emotion. Coordinate with Vanderbilt's comms team for approved imagery.",
-        caption:"\"This is who gets the check when the event is over. A meaningful donation to Vanderbilt Medical Center Emergency Services — not as a footnote, but as part of the reason the event exists. Generosity is part of how VRC is built, not something added on the back end.\"",
-        reelNote:null,
-        format_detail:"Single image. Tag @VanderbiltHealth.",
-        cta:"Tag Vanderbilt Medical Center Emergency Services. Link in bio.",
-        tags:["#VRC","#VanderbiltEmergencyServices","#GivingBack","#Nashville","#VelvetRopeCollective"]
-      },
-      {
-        num:"10", type:"artist", typeLabel:"Artist / talent", format:"photo", formatLabel:"Photo", week:"Week of Sept 21",
-        title:"Phil Vassar reveal",
-        hook:"A great candid of Phil — in the barn, at a piano, mid-laugh. Not a press photo. Something that feels like you were there.",
-        caption:"\"A Country Music Hall of Famer. A Grand Ole Opry member. Ten No. 1 singles. This October, he hosts an evening at his private barn for guests who were hand-picked to be there. No stage. No production. Just the songs and the room.\"",
-        reelNote:null,
-        format_detail:"Single portrait, warm and intimate",
-        cta:"DM for information on remaining invitations.",
-        tags:["#VRC","#PhilVassar","#Nashville","#SongwriterRound","#PrivateConcert","#VelvetRopeCollective"]
-      },
-      {
-        num:"11", type:"bts", typeLabel:"Behind the scenes", format:"reel", formatLabel:"Reel", week:"Week of Sept 28",
-        title:"Site walk",
-        hook:"Bob and the team walking the Conrad Nashville and the barn — checking table layouts, tasting a dish, reviewing the welcome gift. The feel of a team that obsesses. Text overlay: \"Build it like you're going.\"",
-        caption:"\"On site this week. Making sure every detail is right before a single guest arrives. That's the standard.\"",
-        reelNote:"20–30 seconds. Candid and unpolished. This one should feel real — not produced. The authenticity is the point.",
-        format_detail:"Reel, candid, slightly raw feel",
-        cta:"None. Authenticity post.",
-        tags:["#VRC","#BuildItLikeYoureGoing","#VelvetRopeCollective","#Nashville","#BehindTheRope"]
-      },
-      {
-        num:"12", type:"venue", typeLabel:"Venue / access", format:"photo", formatLabel:"Photo", week:"Week of Oct 5",
-        title:"The Conrad Nashville",
-        hook:"The best available shot of the Conrad Nashville — lobby, a suite, or an event space styled for VRC. Elevated, warm, specific.",
-        caption:"\"The Conrad Nashville. Where guests will wake up on October 10th. The experience starts the moment you arrive.\"",
-        reelNote:null,
-        format_detail:"Single hero image, maximum quality",
-        cta:"Link in bio — a small number of invitations remain.",
-        tags:["#VRC","#ConradNashville","#Nashville","#InviteOnly","#VelvetRopeCollective"]
-      },
-      {
-        num:"13", type:"bts", typeLabel:"Behind the scenes", format:"photo", formatLabel:"Photo", week:"Week of Oct 5",
-        title:"The bourbon barrel",
-        hook:"A VRC-branded bourbon barrel (or branded VRC item — TBD) — the logo burned in, a hand resting on it, a distillery backdrop. Specific, tactile, exclusive.",
-        caption:"\"One of the details that doesn't exist anywhere else. More on this when you get here.\"",
-        reelNote:null,
-        format_detail:"Single close-up image, rich warm tones",
-        cta:"None. Mystery detail.",
-        tags:["#VRC","#Nashville","#Bourbon","#VelvetRopeCollective","#TheDetailsAreTheExperience"]
-      },
-      {
-        num:"14", type:"teaser", typeLabel:"Event teaser", format:"reel", formatLabel:"Reel", week:"~Oct 7",
-        title:"Final call",
-        hook:"One last atmospheric pass — the barn at night, candlelight on a dinner table, the Conrad entrance. Text on screen: \"A small number of invitations remain for October.\" End on VRC logo.",
-        caption:"\"The last few invitations for Phil & Friends are being extended this week. A few days. The velvet rope exists for a reason. By invitation. By referral. By design.\"",
-        reelNote:"15 seconds. Quiet and confident. No music drop, no urgency. VRC doesn't chase. It opens a door.",
-        format_detail:"Short Reel, 15 seconds",
-        cta:"Link in bio. DM. No pressure, no pitch.",
-        tags:["#VRC","#Nashville","#PhilVassar","#InviteOnly","#LastCall","#VelvetRopeCollective"]
-      },
-      {
-        num:"15", type:"teaser", typeLabel:"Event teaser", format:"photo", formatLabel:"Photo", week:"Post-event · Late October",
-        title:"What's next",
-        hook:"A single cryptic image — a skyline, a landscape, a detail that hints at a new city or setting. Nothing named, nothing revealed.",
-        caption:"\"Nashville is not the only thing we are building. More soon.\"",
-        reelNote:null,
-        format_detail:"Single image, minimal. Maximum intrigue.",
-        cta:"Follow to stay in the room.",
-        tags:["#VRC","#WhatsNext","#VelvetRopeCollective"]
+        tags:["#VelvetRopeCollective","#Nashville","#PhilVassar","#InviteOnly","#ConradNashville"],
+        approvalNote: null
       },
       {
         num:"L5", type:"teaser", typeLabel:"Event teaser", format:"linkedin", formatLabel:"LinkedIn", week:"Week of Sept 14", platform:"linkedin",
         title:"Final invitations",
-        hook:"Quiet and confident. A small number of invitations remain. No pressure, no urgency tactics — just the door closing cleanly.",
-        caption:"\"A small number of invitations remain for Phil & Friends in Nashville this October.\n\nWe have not run ads. We have not sent a mass email. If you are seeing this, it is because someone in your network is connected to what we are building.\n\nOne event. Thirty couples. The Conrad Nashville. Phil Vassar's private estate. A James Beard Award semifinalist in the kitchen. A meaningful donation to Vanderbilt Medical Center Emergency Services.\n\nIf you would like to be considered, the link is below. We will be in touch.\n\nBy invitation. By referral. By design.\"",
+        hook:"Quiet and confident. A small number of invitations remain.",
+        caption:"\"A small number of invitations remain for Phil & Friends in Nashville this October... [full caption on file]\"",
         reelNote:null,
-        format_detail:"Clean venue or event image — Conrad lobby, barn exterior, or a detail shot. No text overlay.",
+        format_detail:"Clean venue or event image. No text overlay.",
         cta:"Link in post → invitation request form.",
-        tags:["#VelvetRopeCollective","#Nashville","#PhilVassar","#InviteOnly","#ExclusiveEvents"]
+        tags:["#VelvetRopeCollective","#Nashville","#PhilVassar","#InviteOnly"],
+        approvalNote: null
       }
     ]
   }
@@ -556,9 +757,10 @@ function buildHTML() {
   let html = "";
   data.forEach((phase, pi) => {
     if (pi > 0) html += `<div class="phase-divider"></div>`;
+    const phaseNum = phase.phase === 0 ? "✓" : (phase.phase === 5 ? "LI" : "0" + phase.phase);
     html += `<div class="phase-section">
       <div class="phase-header">
-        <div class="phase-number">0${phase.phase}</div>
+        <div class="phase-number">${phaseNum}</div>
         <div>
           <div class="phase-goal">${phase.phaseGoal}</div>
           <div class="phase-name">${phase.phaseName}</div>
@@ -569,13 +771,25 @@ function buildHTML() {
 
     phase.posts.forEach((post, i) => {
       const isLinkedIn = post.platform === "linkedin";
+      const isBoth = post.platform === "both";
       const s = typeStyles[post.type];
-      const accentClass = isLinkedIn ? "accent-linkedin" : s.accent;
+      const accentClass = isLinkedIn ? "accent-linkedin" : isBoth ? "accent-both" : s.accent;
       const id = `card-p${phase.phase}-${i}`;
-      const fmtClass = isLinkedIn ? "format-linkedin" : (post.format === "reel" ? "format-reel" : post.format === "photo" ? "format-photo" : "format-both");
-      const fmtIcon = post.format === "reel" || post.format === "reel+photo" ? "▶ " : isLinkedIn ? "in " : "";
+      const fmtClass = isLinkedIn ? "format-linkedin"
+        : post.format === "reel" ? "format-reel"
+        : post.format === "carousel" ? "format-carousel"
+        : post.format === "story" ? "format-story"
+        : post.format === "photo" ? "format-photo"
+        : "format-both-format";
+      const fmtIcon = post.format === "reel" || post.format === "reel+photo" ? "▶ "
+        : isLinkedIn ? "in "
+        : post.format === "story" ? "◯ "
+        : post.format === "carousel" ? "⊞ "
+        : "";
       const platformAttr = post.platform || "instagram";
       const postedBadge = post.posted ? `<span class="posted-badge">✓ Posted</span>` : "";
+      const bothBadge = isBoth ? `<span class="both-badge">IG + LI</span>` : "";
+      const approvalBadge = post.approvalNote ? `<span class="approval-badge">⚠ Approval needed</span>` : "";
 
       html += `<div class="post-card" id="${id}" data-type="${post.type}" data-format="${post.format}" data-platform="${platformAttr}">
         <div class="card-accent ${accentClass}"></div>
@@ -585,7 +799,7 @@ function buildHTML() {
               <span class="post-num">${post.num}</span>
               <span class="type-badge" style="background:${s.bg};color:${s.color}">${post.typeLabel}</span>
               <span class="format-badge ${fmtClass}">${fmtIcon}${post.formatLabel}</span>
-              ${postedBadge}
+              ${postedBadge}${bothBadge}${approvalBadge}
             </div>
             <button class="toggle-btn" onclick="toggleCard('${id}')" aria-label="Expand">+</button>
           </div>
@@ -594,7 +808,8 @@ function buildHTML() {
           <div class="card-hook">${post.hook.length > 100 ? post.hook.slice(0,100)+'…' : post.hook}</div>
           <div class="card-detail" id="detail-${id}">
             <div class="detail-inner">
-              ${post.reelNote ? `<div class="reel-note"><strong>Reel direction:</strong> ${post.reelNote}</div>` : ''}
+              ${post.approvalNote ? `<div class="approval-note"><strong>Approval required:</strong> ${post.approvalNote}</div>` : ''}
+              ${post.reelNote ? `<div class="reel-note"><strong>Direction:</strong> ${post.reelNote}</div>` : ''}
               <div class="detail-row">
                 <span class="detail-label">Visual</span>
                 <span class="detail-val">${post.hook}</span>
@@ -612,7 +827,7 @@ function buildHTML() {
                 <span class="detail-val">${post.cta}</span>
               </div>
               <div class="detail-row">
-                <span class="detail-label">${isLinkedIn ? "Hashtags" : "Hashtags"}</span>
+                <span class="detail-label">Hashtags</span>
                 <div class="tags-wrap">${post.tags.map(t=>`<span class="tag">${t}</span>`).join("")}</div>
               </div>
             </div>
@@ -669,8 +884,13 @@ function applyFilters() {
     const fmt = card.dataset.format;
     const formatMatch = activeFormat === "all"
       || (activeFormat === "reel" && (fmt === "reel" || fmt === "reel+photo"))
-      || (activeFormat === "photo" && (fmt === "photo" || fmt === "reel+photo"));
-    const platformMatch = activePlatform === "all" || card.dataset.platform === activePlatform;
+      || (activeFormat === "photo" && (fmt === "photo" || fmt === "reel+photo"))
+      || (activeFormat === "carousel" && fmt === "carousel")
+      || (activeFormat === "story" && fmt === "story");
+    const plt = card.dataset.platform;
+    const platformMatch = activePlatform === "all"
+      || plt === activePlatform
+      || plt === "both";
     card.classList.toggle("hidden", !(typeMatch && formatMatch && platformMatch));
   });
 }
